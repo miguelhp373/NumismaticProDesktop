@@ -5,7 +5,7 @@ object FrMenu: TFrMenu
   BorderStyle = bsSingle
   Caption = '****'
   ClientHeight = 571
-  ClientWidth = 782
+  ClientWidth = 833
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,14 +21,13 @@ object FrMenu: TFrMenu
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 782
+    Width = 833
     Height = 57
     Align = alTop
     BevelOuter = bvNone
     Color = clBtnHighlight
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 772
     object SpeedButton1: TSpeedButton
       Left = 84
       Top = 0
@@ -41,10 +40,11 @@ object FrMenu: TFrMenu
       Images = DataModule1.ImageList1
       Flat = True
       Layout = blGlyphTop
+      OnClick = SpeedButton1Click
       ExplicitLeft = 0
       ExplicitHeight = 58
     end
-    object SpeedButton2: TSpeedButton
+    object BtnNewRegister: TSpeedButton
       Left = 0
       Top = 0
       Width = 84
@@ -56,6 +56,7 @@ object FrMenu: TFrMenu
       Images = DataModule1.ImageList1
       Flat = True
       Layout = blGlyphTop
+      OnClick = BtnNewRegisterClick
       ExplicitLeft = -20
     end
     object SpeedButton3: TSpeedButton
@@ -85,11 +86,12 @@ object FrMenu: TFrMenu
       Images = DataModule1.ImageList1
       Flat = True
       Layout = blGlyphTop
+      OnClick = SpeedButton4Click
       ExplicitLeft = 80
       ExplicitHeight = 58
     end
     object SearchField: TEdit
-      Left = 591
+      Left = 655
       Top = 19
       Width = 170
       Height = 21
@@ -100,26 +102,24 @@ object FrMenu: TFrMenu
   end
   object Panel3: TPanel
     Left = 0
-    Top = 295
-    Width = 782
-    Height = 251
+    Top = 284
+    Width = 833
+    Height = 262
     Align = alBottom
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 285
-    ExplicitWidth = 772
     object pageControl: TPageControl
       Left = 0
       Top = 0
-      Width = 782
-      Height = 251
-      ActivePage = page1
+      Width = 833
+      Height = 262
+      ActivePage = page01_register
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 772
-      object page1: TTabSheet
+      ExplicitHeight = 251
+      object page01_register: TTabSheet
         Caption = 'Informa'#231#245'es'
         object Label1: TLabel
           Left = 12
@@ -162,13 +162,13 @@ object FrMenu: TFrMenu
           Layout = tlCenter
         end
         object Label5: TLabel
-          Left = 12
+          Left = -3
           Top = 132
-          Width = 31
+          Width = 46
           Height = 21
           Alignment = taRightJustify
           AutoSize = False
-          Caption = 'Tipo'
+          Caption = 'Tipo:'
           Layout = tlCenter
         end
         object Label6: TLabel
@@ -182,50 +182,81 @@ object FrMenu: TFrMenu
           Layout = tlCenter
         end
         object SpeedButton5: TSpeedButton
-          Left = 26
-          Top = 175
-          Width = 127
+          Left = -1
+          Top = 202
+          Width = 124
           Height = 21
           Caption = 'Selecionar Imagem'
           ImageIndex = 4
           Images = DataModule1.ImageList1
+          OnClick = SpeedButton5Click
         end
-        object Edit1: TEdit
+        object ImageRegister: TImage
+          AlignWithMargins = True
+          Left = 369
+          Top = 25
+          Width = 207
+          Height = 168
+          Center = True
+          Proportional = True
+          Stretch = True
+        end
+        object Label7: TLabel
+          Left = 184
+          Top = 167
+          Width = 46
+          Height = 21
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Cole'#231#227'o:'
+          Layout = tlCenter
+        end
+        object lb_value: TLabel
+          Left = -8
+          Top = 167
+          Width = 52
+          Height = 21
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Valor:'
+          Layout = tlCenter
+        end
+        object Name_Edit: TEdit
           Left = 50
           Top = 27
           Width = 299
           Height = 21
           TabOrder = 0
         end
-        object Edit2: TEdit
-          Left = 50
+        object Country_Edit: TEdit
+          Left = 49
           Top = 62
           Width = 299
           Height = 21
           TabOrder = 1
         end
-        object Edit3: TEdit
+        object Qtd_Edit: TEdit
           Left = 50
           Top = 97
           Width = 59
           Height = 21
           TabOrder = 2
         end
-        object Edit4: TEdit
+        object Year_Edit: TEdit
           Left = 291
           Top = 97
           Width = 58
           Height = 21
           TabOrder = 3
         end
-        object Edit5: TEdit
+        object Type_Edit: TEdit
           Left = 50
           Top = 132
           Width = 177
           Height = 21
           TabOrder = 4
         end
-        object Edit6: TEdit
+        object Unit_Edit: TEdit
           Left = 291
           Top = 132
           Width = 58
@@ -233,19 +264,45 @@ object FrMenu: TFrMenu
           TabOrder = 5
         end
         object filePathText: TEdit
-          Left = 159
-          Top = 175
-          Width = 192
+          Left = 128
+          Top = 202
+          Width = 448
           Height = 21
           AutoSize = False
           BorderStyle = bsNone
           Color = clScrollBar
+          Enabled = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
+          TabOrder = 9
+        end
+        object chkCoin: TCheckBox
+          Left = 236
+          Top = 167
+          Width = 47
+          Height = 21
+          Caption = 'Moeda'
+          TabOrder = 7
+          OnClick = chkCoinClick
+        end
+        object chk_bill: TCheckBox
+          Left = 289
+          Top = 167
+          Width = 63
+          Height = 21
+          Caption = 'C'#233'dula'
+          TabOrder = 8
+          OnClick = chk_billClick
+        end
+        object Value_Edit: TEdit
+          Left = 50
+          Top = 167
+          Width = 58
+          Height = 21
           TabOrder = 6
         end
       end
@@ -254,36 +311,42 @@ object FrMenu: TFrMenu
   object Panel2: TPanel
     Left = 0
     Top = 57
-    Width = 782
-    Height = 238
+    Width = 833
+    Height = 227
     Margins.Bottom = 10
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitWidth = 772
-    ExplicitHeight = 228
+    ExplicitHeight = 238
     object PageControl1: TPageControl
       Left = 0
       Top = 0
-      Width = 782
-      Height = 238
-      ActivePage = TabSheet1
+      Width = 624
+      Height = 227
+      ActivePage = page1
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 772
-      ExplicitHeight = 228
-      object TabSheet1: TTabSheet
+      OnChange = PageControl1Change
+      ExplicitWidth = 601
+      ExplicitHeight = 238
+      object page1: TTabSheet
         Caption = 'Moedas'
         object Grid_Coins: TDBGrid
           Left = 0
           Top = 0
-          Width = 774
-          Height = 210
+          Width = 616
+          Height = 199
           Cursor = crHandPoint
           Align = alClient
           DataSource = DsGridCoins
           DrawingStyle = gdsGradient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
           Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
           ReadOnly = True
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
@@ -293,13 +356,6 @@ object FrMenu: TFrMenu
           TitleFont.Style = []
           OnCellClick = Grid_CoinsCellClick
           Columns = <
-            item
-              Expanded = False
-              FieldName = 'Image'
-              Title.Caption = 'Imagem'
-              Width = 147
-              Visible = True
-            end
             item
               Expanded = False
               FieldName = 'Name'
@@ -339,6 +395,7 @@ object FrMenu: TFrMenu
               Visible = True
             end
             item
+              ButtonStyle = cbsNone
               Expanded = False
               FieldName = 'Type'
               Title.Caption = 'Tipo'
@@ -357,65 +414,112 @@ object FrMenu: TFrMenu
       object page2: TTabSheet
         Caption = 'C'#233'dulas'
         ImageIndex = 1
-        object DBGrid2: TDBGrid
+        object BillsGrid: TDBGrid
           Left = 0
           Top = 0
-          Width = 774
-          Height = 210
+          Width = 616
+          Height = 199
+          Cursor = crHandPoint
           Align = alClient
+          DataSource = DsGridBills
+          DrawingStyle = gdsGradient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
+          ReadOnly = True
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
           TitleFont.Height = -11
           TitleFont.Name = 'Tahoma'
           TitleFont.Style = []
+          OnCellClick = Grid_CoinsCellClick
           Columns = <
             item
               Expanded = False
-              Title.Caption = 'Imagem'
-              Width = 147
-              Visible = True
-            end
-            item
-              Expanded = False
+              FieldName = 'Name'
               Title.Caption = 'Nome'
               Width = 178
               Visible = True
             end
             item
+              Alignment = taRightJustify
               Expanded = False
+              FieldName = 'Value'
+              Title.Alignment = taRightJustify
               Title.Caption = 'Valor'
               Width = 67
               Visible = True
             end
             item
+              Alignment = taRightJustify
               Expanded = False
+              FieldName = 'Unit'
+              Title.Alignment = taRightJustify
               Title.Caption = 'Unidade'
               Width = 59
               Visible = True
             end
             item
               Expanded = False
+              FieldName = 'Country'
               Title.Caption = 'Pais'
               Width = 101
               Visible = True
             end
             item
               Expanded = False
+              FieldName = 'Year'
               Title.Caption = 'Ano'
               Visible = True
             end
             item
+              ButtonStyle = cbsNone
               Expanded = False
+              FieldName = 'Type'
               Title.Caption = 'Tipo'
               Visible = True
             end
             item
+              Alignment = taRightJustify
               Expanded = False
+              FieldName = 'Quantity'
+              Title.Alignment = taRightJustify
               Title.Caption = 'Quantidade'
               Visible = True
             end>
         end
+      end
+    end
+    object Panel4: TPanel
+      Left = 624
+      Top = 0
+      Width = 209
+      Height = 227
+      Align = alRight
+      TabOrder = 1
+      ExplicitLeft = 626
+      ExplicitTop = 6
+      ExplicitHeight = 238
+      object image01: TImage
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 201
+        Height = 219
+        Align = alClient
+        AutoSize = True
+        Center = True
+        Proportional = True
+        Stretch = True
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 207
+        ExplicitHeight = 122
       end
     end
   end
@@ -423,7 +527,7 @@ object FrMenu: TFrMenu
     AlignWithMargins = True
     Left = 3
     Top = 549
-    Width = 776
+    Width = 827
     Height = 19
     BiDiMode = bdRightToLeft
     Panels = <
@@ -443,12 +547,10 @@ object FrMenu: TFrMenu
         Width = 280
       end>
     ParentBiDiMode = False
-    ExplicitTop = 539
-    ExplicitWidth = 766
   end
   object MainMenu1: TMainMenu
-    Left = 600
-    Top = 320
+    Left = 648
+    Top = 392
     object Configuraes1: TMenuItem
       Caption = 'Configura'#231#245'es'
     end
@@ -457,37 +559,45 @@ object FrMenu: TFrMenu
       OnClick = Info1Click
     end
   end
-  object OpenTextFileDialog1: TOpenTextFileDialog
-    Left = 680
-    Top = 320
-  end
   object DsGridCoins: TDataSource
     DataSet = ClientDataSet
-    Left = 620
-    Top = 463
+    Left = 740
+    Top = 487
   end
   object ClientDataSet: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'DataSetProvider'
-    Left = 554
-    Top = 463
+    Left = 738
+    Top = 439
   end
   object DataSetProvider: TDataSetProvider
     DataSet = DataModule1.SqlActions
-    Left = 476
-    Top = 463
+    Left = 644
+    Top = 487
   end
   object ReturnParametersProvider: TDataSetProvider
     DataSet = DataModule1.ReturnParameters
-    Left = 476
-    Top = 394
+    Left = 644
+    Top = 442
   end
   object ReturnParametersDataSet: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'ReturnParametersProvider'
-    Left = 587
+    Left = 731
     Top = 394
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'Todos os Arquivos|*.jpg'
+    InitialDir = '\downloads'
+    Title = 'Selecione A Imagem'
+    Left = 644
+    Top = 343
+  end
+  object DsGridBills: TDataSource
+    DataSet = ClientDataSet
+    Left = 724
+    Top = 343
   end
 end
