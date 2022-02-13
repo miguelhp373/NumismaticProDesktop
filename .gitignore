@@ -1,0 +1,10 @@
+*.~dpr
+*.~dfm
+*.~pas
+*.dcu
+*.~ddp
+*.fmx
+__history
+__recovery
+Win32
+Win64
