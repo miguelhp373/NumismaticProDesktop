@@ -18,15 +18,15 @@ type
     pageControl: TPageControl;
     page01_register: TTabSheet;
     SearchField: TEdit;
-    SpeedButton1: TSpeedButton;
+    BtnSaveRegister: TSpeedButton;
     BtnNewRegister: TSpeedButton;
-    SpeedButton3: TSpeedButton;
-    SpeedButton4: TSpeedButton;
+    ButtonDelete: TSpeedButton;
+    ButtonRefreshData: TSpeedButton;
     MainMenu1: TMainMenu;
     Configuraes1: TMenuItem;
     StatusBar_Bottom: TStatusBar;
     Info1: TMenuItem;
-    PageControl1: TPageControl;
+    PageControlGeral: TPageControl;
     page1: TTabSheet;
     page2: TTabSheet;
     Name_Edit: TEdit;
@@ -41,7 +41,7 @@ type
     Type_Edit: TEdit;
     Label6: TLabel;
     Unit_Edit: TEdit;
-    SpeedButton5: TSpeedButton;
+    BtnSelectFileImage: TSpeedButton;
     filePathText: TEdit;
     DsGridCoins: TDataSource;
     Grid_Coins: TDBGrid;
@@ -51,7 +51,6 @@ type
     ReturnParametersDataSet: TClientDataSet;
     Panel4: TPanel;
     image01: TImage;
-    ImageRegister: TImage;
     OpenDialog1: TOpenDialog;
     chkCoin: TCheckBox;
     chk_bill: TCheckBox;
@@ -60,17 +59,24 @@ type
     lb_value: TLabel;
     BillsGrid: TDBGrid;
     DsGridBills: TDataSource;
+    BtnRemoveImage: TButton;
+    Panel5: TPanel;
+    ImageRegister: TImage;
     procedure FormCreate(Sender: TObject);
     procedure Info1Click(Sender: TObject);
-    procedure SearchFieldChange(Sender: TObject);
     procedure Grid_CoinsCellClick(Column: TColumn);
-    procedure SpeedButton4Click(Sender: TObject);
+    procedure ButtonRefreshDataClick(Sender: TObject);
     procedure BtnNewRegisterClick(Sender: TObject);
-    procedure SpeedButton5Click(Sender: TObject);
+    procedure BtnSelectFileImageClick(Sender: TObject);
     procedure chkCoinClick(Sender: TObject);
     procedure chk_billClick(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
-    procedure PageControl1Change(Sender: TObject);
+    procedure BtnSaveRegisterClick(Sender: TObject);
+    procedure PageControlGeralChange(Sender: TObject);
+    procedure Grid_CoinsKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure SearchFieldChange(Sender: TObject);
+    procedure BtnRemoveImageClick(Sender: TObject);
+    procedure ButtonDeleteClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -78,11 +84,15 @@ type
   procedure RefreshImage(Field : TField; Img : TImage);
   procedure LoaderImage;
   procedure ActionsDB(TypaAction: String);
+  procedure SearchAction(Textsearch : String);  //FUNÇÃO DE BUSCA DO CAMPO SEARCH FIELD
+  procedure LoadDataOnGrid;
+  procedure LoadDataOnActionsGrid;
   end;
 
 var
   FrMenu: TFrMenu;
   GlbInfoVersion : String;
+  IdFieldAction  : Integer;
 
 implementation
 
@@ -91,28 +101,115 @@ uses U_DataModule,U_FrInfo;
 {$R *.dfm}
 
 
+////////////////////////////////////////////////////////////
+//FORM CREATE
+
 procedure TFrMenu.FormCreate(Sender: TObject);
 begin
   //Define Version
-  GlbInfoVersion  :=  '1.0.0';
+  GlbInfoVersion  :=  '1.0.1';
 
 
   ActiveControl   :=  pageControl;
-  Self.Caption    :=  'Numismatic Pro Desktop - Vs' + GlbInfoVersion + ' - 2022';
+  Self.Caption    :=  'Numismatic Pro Desktop - Vs' + GlbInfoVersion + ' - 2022 - Beta';
 
   DsGridCoins.DataSet.Active      := False;
   ReturnParametersDataSet.Active  := False;
 end;
 
+////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////
+//GRID CLICK ACTION
 
 procedure TFrMenu.Grid_CoinsCellClick(Column: TColumn);
 begin
-  if not DataModule1.SqlActions.active then abort;
+  if PageControlGeral.ActivePage = page1 then
+  begin
+    if not DsGridCoins.DataSet.Active then abort;
+  end;
 
-   image01.Picture.Assign(nil);
+  if PageControlGeral.ActivePage = page2 then
+  begin
+    if not DsGridBills.DataSet.Active then abort;
+  end;
+
+  LoadDataOnActionsGrid;
+  BtnSelectFileImage.Enabled := True;
+end;
+
+procedure TFrMenu.Grid_CoinsKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if PageControlGeral.ActivePage = page1 then
+  begin
+    if not DsGridCoins.DataSet.Active then abort;
+  end;
+
+  if PageControlGeral.ActivePage = page2 then
+  begin
+    if not DsGridBills.DataSet.Active then abort;
+  end;
+
+  LoadDataOnActionsGrid;
+end;
+
+////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+// OPEN INFO MODAL
+
+procedure TFrMenu.Info1Click(Sender: TObject);
+begin
+  Application.CreateForm(TFrInfo,FrInfo);
+  FrInfo.ShowModal;
+end;
+
+////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+//LOAD IMAGE
+
+procedure TFrMenu.LoaderImage;
+Var 
+  JPG : TJPegImage; 
+begin 
+ ImageRegister.Picture.Assign(nil);
+  If OpenDialog1.Execute Then
+    Begin
+      Try
+        JPG := TJPEGImage.Create(); 
+        JPG.LoadFromFile(OpenDialog1.FileName); 
+        ImageRegister.Picture.Assign(JPG); 
+    Finally 
+         FreeAndNil(JPG);      
+    End;
+    
+  End; 
+
+  filePathText.Text :=  OpenDialog1.FileName; 
+  
+end;
+
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// LOAD DATA ON GRID ACTIONS
+
+procedure TFrMenu.LoadDataOnActionsGrid;
+begin
+  image01.Picture.Assign(nil);
+
 
   StatusBar_Bottom.Panels[2].Text := IntToStr(Grid_Coins.SelectedRows.Count)+ ' Moedas(s) Selecionadas';
   RefreshImage(ClientDataSet.FieldByName('Image'),image01);
+  //RefreshImage(ClientDataSet.FieldByName('Image'),ImageRegister);
+
+  if ImageRegister.Picture = nil then filePathText.Text := '';
 
   Name_Edit.Text    :=  ClientDataSet.FieldByName('Name').asString;
   Value_Edit.Text   :=  ClientDataSet.FieldByName('Value').asString;
@@ -131,49 +228,170 @@ begin
       chkCoin.Checked   := False;
       chk_bill.Checked  := True;
   end;
-  
 end;
 
-procedure TFrMenu.Info1Click(Sender: TObject);
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// LOAD DATA FROM DB
+
+procedure TFrMenu.LoadDataOnGrid;
 begin
-  Application.CreateForm(TFrInfo,FrInfo);
-  FrInfo.ShowModal;
+  if pageControl.ActivePage = page1 then
+  begin
+
+    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
+    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
+
+    With DataModule1.SqlActions do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        SQL.Add('WHERE  Coin = "TRUE"');
+        SQL.Add('ORDER BY Name DESC');
+        Open;
+      end;
+  end;
+
+  if pageControl.ActivePage = page2 then
+  begin
+
+    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
+    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
+
+    With DataModule1.SqlActions do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        SQL.Add('WHERE  Bills = "TRUE"');
+        SQL.Add('ORDER BY Name DESC');
+        Open;
+      end;
+  end;
 end;
 
+////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////
+// REFRESH BUTTON GRID DB
 
-procedure TFrMenu.LoaderImage;
-Var 
-  JPG : TJPegImage; 
-begin 
- ImageRegister.Picture.Assign(nil);
-  If OpenDialog1.Execute Then 
-    Begin
-      Try
-        JPG := TJPEGImage.Create(); 
-        JPG.LoadFromFile(OpenDialog1.FileName); 
-        ImageRegister.Picture.Assign(JPG); 
-    Finally 
-         FreeAndNil(JPG);      
-    End;
-    
-  End; 
-
-  filePathText.Text :=  OpenDialog1.FileName; 
-  
-end;
-
-procedure TFrMenu.PageControl1Change(Sender: TObject);
+procedure TFrMenu.ButtonRefreshDataClick(Sender: TObject);
+var
+  TotalRegistersCoins : String;
+  TotalRegistersGeneral : String;
 begin
-  if not DataModule1.SqlActions.active then abort;
 
-  SpeedButton4Click(SpeedButton4);
+  TotalRegistersCoins   := '0';
+  TotalRegistersGeneral := '0';
+
+  DsGridCoins.DataSet.Active      := False;
+  ReturnParametersDataSet.Active  := False;
+
+
+  if PageControlGeral.ActivePage = page1 then
+  begin
+
+    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
+    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
+
+
+    With DataModule1.SqlActions do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        SQL.Add('WHERE  Coin = "TRUE"');
+        SQL.Add('ORDER BY Name DESC');
+        Open;
+
+        DsGridCoins.DataSet.Active := True;
+
+        TotalRegistersCoins := IntToStr(ClientDataSet.RecordCount);
+
+        if StrToInt(TotalRegistersCoins) < 1 then
+        begin
+          DsGridCoins.DataSet.Active := False;
+          StatusBar_Bottom.Panels[1].Text := '0/0';
+          abort;
+        end;
+
+    end;
+  end;
+
+
+ if PageControlGeral.ActivePage = page2 then
+  begin
+
+    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
+    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
+
+
+    With DataModule1.SqlActions do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        SQL.Add('WHERE  Bills = "TRUE"');
+        SQL.Add('ORDER BY Name DESC');
+        Open;
+
+        DsGridBills.DataSet.Active := True;
+
+        TotalRegistersCoins := IntToStr(ClientDataSet.RecordCount);
+
+        if StrToInt(TotalRegistersCoins) < 1 then
+        begin
+          DsGridBills.DataSet.Active := False;
+          StatusBar_Bottom.Panels[1].Text := '0/0';
+          abort;
+        end;
+
+    end;
+  end;
+
+   With DataModule1.ReturnParameters do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        Open;
+
+        ReturnParametersDataSet.Active := True;
+
+        TotalRegistersGeneral := IntToStr(ReturnParametersDataSet.RecordCount);
+    end;
+
+    StatusBar_Bottom.Panels[1].Text := TotalRegistersCoins + '/' + TotalRegistersGeneral;
+
 end;
 
-procedure TFrMenu.SpeedButton5Click(Sender: TObject);
+////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+//PAGE CONTROL VALIDATIONS
+
+procedure TFrMenu.PageControlGeralChange(Sender: TObject);
+begin
+  SearchField.Text := '';
+  ButtonRefreshDataClick(ButtonRefreshData);
+end;
+
+////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+// LOAD FILE EXPLORER
+
+procedure TFrMenu.BtnSelectFileImageClick(Sender: TObject);
 begin
   LoaderImage;
+  BtnRemoveImage.Visible := True;
+  ActiveControl := Name_Edit;
 end;
+
+////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+// SHOW IMAGE ON TIMAGE
 
 procedure TFrMenu.RefreshImage(Field: TField; Img: TImage);
 var
@@ -211,23 +429,30 @@ begin
 
 end;
 
-procedure TFrMenu.SearchFieldChange(Sender: TObject);
+////////////////////////////////////////////////////////////
+
+
+
+
+////////////////////////////////////////////////////////////
+// FUNÇÃO QUE BUSCA STRING NO BANCO DE DADOS
+
+procedure TFrMenu.SearchAction(Textsearch: String);
 var
   TotalRegistersCoins : String;
   TotalRegistersGeneral : String;
-  StringSearch : String;
 begin
 
   TotalRegistersCoins   := '0';
   TotalRegistersGeneral := '0';
-  StringSearch := '';
-  if SearchField.Text <> '' then StringSearch := SearchField.Text;
+
+  if  Textsearch = '' then ButtonRefreshDataClick(ButtonRefreshData);
 
   DsGridCoins.DataSet.Active      := False;
   ReturnParametersDataSet.Active  := False;
 
 
-  if pageControl.ActivePage = page1 then
+  if PageControlGeral.ActivePage = page1 then
   begin
 
     if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
@@ -239,7 +464,9 @@ begin
         SQL.Clear;
         SQL.Add('SELECT * FROM CollectionTable');
         SQL.Add('WHERE Name LIKE :TextParam AND Coin = "TRUE"');
-        ParambyName('TextParam').AsString :=  '%' + StringSearch  + '%';
+        SQL.Add('ORDER BY Name DESC');
+
+        ParambyName('TextParam').AsString :=  '%' + Textsearch  + '%';
         Open;
 
         DsGridCoins.DataSet.Active := True;
@@ -267,25 +494,69 @@ begin
         TotalRegistersGeneral := IntToStr(ReturnParametersDataSet.RecordCount);
     end;
 
+ if PageControlGeral.ActivePage = page2 then
+  begin
+
+    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
+    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
+
+
+    With DataModule1.SqlActions do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        SQL.Add('WHERE Name LIKE :TextParam AND  Bills = "TRUE"');
+        SQL.Add('ORDER BY Name DESC');
+        ParambyName('TextParam').AsString :=  '%' + Textsearch  + '%';
+        Open;
+
+        DsGridBills.DataSet.Active := True;
+
+        TotalRegistersCoins := IntToStr(ClientDataSet.RecordCount);
+
+        if StrToInt(TotalRegistersCoins) < 1 then
+        begin
+          DsGridBills.DataSet.Active := False;
+          StatusBar_Bottom.Panels[1].Text := '0/0';
+          abort;
+        end;
+
+    end;
+  end;
+
     StatusBar_Bottom.Panels[1].Text := TotalRegistersCoins + '/' + TotalRegistersGeneral;
 
   end;
+end;
 
-    {if pageControl.ActivePage = page2 then
-    begin
-      With DataModule1.SqlActions do
-        begin
-          SQL.Clear;
-          Close;
-          SQL.Add('SELECT * FROM CollectionTable WHERE Name LIKE "%'+ Text +'%" AND Bills = "TRUE"');
-          Open;
-      end;
-    end;   }
+procedure TFrMenu.SearchFieldChange(Sender: TObject);
+begin
+  SearchAction(SearchField.Text);
+end;
+
+procedure TFrMenu.ButtonDeleteClick(Sender: TObject);
+var
+  ResultModal: Integer;
+
+begin
+  ResultModal := MessageDlg('Deseja Apagar o Registro?', mtConfirmation, [mbYes, mbNo{, mbCancel}], 0);
+
+  if ResultModal =  mrYes  then
+  begin
+    IdFieldAction := ClientDataSet.FieldByName('Id').AsInteger;
+    ActionsDB('DEL');
+
+    ButtonRefreshDataClick(ButtonRefreshData);
+  end;
 
 end;
 
+////////////////////////////////////////////////////////////
 
 
+
+ ////////////////////////////////////////////////////////////
+ //DB ACTIONS
 procedure TFrMenu.ActionsDB(TypaAction: String);
 begin
  if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
@@ -318,9 +589,54 @@ begin
               ParamByName('Bills'   ).AsString := 'TRUE';
           end;
           ExecSQL();
+
+          ShowMessage('Registro Com Sucesso!');
+      end;
+    end;
+
+    if(TypaAction = 'UPD')then
+    begin
+       With DataModule1.SqlActions do
+        begin
+          SQL.Clear;
+          SQL.Add('UPDATE CollectionTable SET');
+          SQL.Add('Image = :Image, Name = :Name, Value = :Value, Unit = :Unit, Country = :Country, Year = :Year, Type = :Type, Quantity = :Quantity');
+          SQL.Add('WHERE Id = :Id');
+
+          ParamByName('Name'    ).AsString := Name_Edit.Text;
+          ParamByName('Value'   ).AsString := Value_Edit.Text;
+          ParamByName('Unit'    ).AsString := Unit_Edit.Text;
+          ParamByName('Country' ).AsString := Country_Edit.Text;
+          ParamByName('Year'    ).AsString := Year_Edit.Text;
+          ParamByName('Type'    ).AsString := Type_Edit.Text;
+          ParamByName('Quantity').AsString := Qtd_Edit.Text;
+          if filePathText.Text <> '' then ParamByName('Image').LoadFromFile(filePathText.Text,FtBlob);
+          ParamByName('Id').asInteger := IdFieldAction;
+          ExecSQL();
+          ShowMessage('Alterado Com Sucesso!');
+      end;
+    end;
+
+    if(TypaAction = 'DEL')then
+    begin
+       With DataModule1.SqlActions do
+        begin
+          SQL.Clear;
+          SQL.Add('DELETE FROM CollectionTable');
+          SQL.Add('WHERE Id = :Id');
+
+          ParamByName('Id').asInteger := IdFieldAction;
+          ExecSQL();
+          ShowMessage('Registro Apagado Com Sucesso!');
       end;
     end;
 end;
+
+////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+// BTN NEW COIN OR BILLS
 
 procedure TFrMenu.BtnNewRegisterClick(Sender: TObject);
 begin
@@ -334,143 +650,46 @@ begin
   chkCoin.Checked     := False;
   chk_bill.Checked    := False;  
   ImageRegister.Picture.Assign(nil);
+  BtnSelectFileImage.Enabled := True;
 
   ActiveControl       := Name_Edit;
 end;
 
-procedure TFrMenu.SpeedButton1Click(Sender: TObject);
+procedure TFrMenu.BtnRemoveImageClick(Sender: TObject);
 begin
-    DsGridCoins.DataSet.Active      := False;
-
-    if(ClientDataSet.FieldByName('Id').AsInteger > 0)then ActionsDB('NEW')
-    else                                                  ActionsDB('UPD');
-    
-    DsGridCoins.DataSet.Active      := False;
-  
-  if pageControl.ActivePage = page1 then
-  begin
-
-    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
-    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
-
-    With DataModule1.SqlActions do
-      begin
-        SQL.Clear;
-        SQL.Add('SELECT * FROM CollectionTable');
-        SQL.Add('WHERE  Coin = "TRUE"');
-        Open;
-      end;
-  end;
-
-  if pageControl.ActivePage = page2 then
-  begin
-
-    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
-    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
-
-    With DataModule1.SqlActions do
-      begin
-        SQL.Clear;
-        SQL.Add('SELECT * FROM CollectionTable');
-        SQL.Add('WHERE  Bills = "TRUE"');
-        Open;
-      end;
-  end;  
-
+  ImageRegister.Picture.Assign(nil);
+  BtnRemoveImage.Visible := False;
 end;
 
-procedure TFrMenu.SpeedButton4Click(Sender: TObject);
-var
-  TotalRegistersCoins : String;
-  TotalRegistersGeneral : String;
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// BUTTON SAVE REGISTER
+
+procedure TFrMenu.BtnSaveRegisterClick(Sender: TObject);
 begin
 
-  TotalRegistersCoins   := '0';
-  TotalRegistersGeneral := '0';
+  IdFieldAction := 0;
 
-  DsGridCoins.DataSet.Active      := False;
-  ReturnParametersDataSet.Active  := False;
+  if ClientDataSet.Active <> False then  IdFieldAction := ClientDataSet.FieldByName('Id').AsInteger;
 
+    if(IdFieldAction > 0)then ActionsDB('UPD')
+    else                      ActionsDB('NEW');
 
-  if PageControl1.ActivePage = page1 then
-  begin
-
-    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
-    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
-
-
-    With DataModule1.SqlActions do
-      begin
-        SQL.Clear;
-        SQL.Add('SELECT * FROM CollectionTable');
-        SQL.Add('WHERE  Coin = "TRUE"');        
-        Open;
-
-        DsGridCoins.DataSet.Active := True;
-
-        TotalRegistersCoins := IntToStr(ClientDataSet.RecordCount);
-
-        if StrToInt(TotalRegistersCoins) < 1 then
-        begin
-          DsGridCoins.DataSet.Active := False;
-          StatusBar_Bottom.Panels[1].Text := '0/0';
-          abort;
-        end;
-
-    end;
-  end; 
-
-  
- if PageControl1.ActivePage = page2 then
-  begin
-
-    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
-    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
-
-
-    With DataModule1.SqlActions do
-      begin
-        SQL.Clear;
-        SQL.Add('SELECT * FROM CollectionTable');
-        SQL.Add('WHERE  Bills = "TRUE"');        
-        Open;
-
-        DsGridCoins.DataSet.Active := True;
-
-        TotalRegistersCoins := IntToStr(ClientDataSet.RecordCount);
-
-        if StrToInt(TotalRegistersCoins) < 1 then
-        begin
-          DsGridCoins.DataSet.Active := False;
-          StatusBar_Bottom.Panels[1].Text := '0/0';
-          abort;
-        end;
-
-    end;
-  end;  
-
-   With DataModule1.ReturnParameters do
-      begin
-        SQL.Clear;
-        SQL.Add('SELECT * FROM CollectionTable');
-        Open;
-
-        ReturnParametersDataSet.Active := True;
-
-        TotalRegistersGeneral := IntToStr(ReturnParametersDataSet.RecordCount);
-    end;
-
-    StatusBar_Bottom.Panels[1].Text := TotalRegistersCoins + '/' + TotalRegistersGeneral;  
-
+    ButtonRefreshDataClick(ButtonRefreshData);
 end;
 
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+// CHECKBOX ACTION
 
 procedure TFrMenu.chkCoinClick(Sender: TObject);
 begin
 
   if chkCoin.Checked = True then  chk_bill.Enabled   := False
   else                            chk_bill.Enabled   := True;
-  
+
 end;
 
 procedure TFrMenu.chk_billClick(Sender: TObject);
@@ -478,6 +697,8 @@ begin
   if chk_bill.Checked = True then  chkCoin.Enabled   := False
   else                             chkCoin.Enabled   := True;
 end;
+
+////////////////////////////////////////////////////////////
 
 
 

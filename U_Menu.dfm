@@ -28,7 +28,7 @@ object FrMenu: TFrMenu
     Color = clBtnHighlight
     ParentBackground = False
     TabOrder = 0
-    object SpeedButton1: TSpeedButton
+    object BtnSaveRegister: TSpeedButton
       Left = 84
       Top = 0
       Width = 84
@@ -40,7 +40,7 @@ object FrMenu: TFrMenu
       Images = DataModule1.ImageList1
       Flat = True
       Layout = blGlyphTop
-      OnClick = SpeedButton1Click
+      OnClick = BtnSaveRegisterClick
       ExplicitLeft = 0
       ExplicitHeight = 58
     end
@@ -59,7 +59,7 @@ object FrMenu: TFrMenu
       OnClick = BtnNewRegisterClick
       ExplicitLeft = -20
     end
-    object SpeedButton3: TSpeedButton
+    object ButtonDelete: TSpeedButton
       Left = 168
       Top = 0
       Width = 84
@@ -71,10 +71,11 @@ object FrMenu: TFrMenu
       Images = DataModule1.ImageList1
       Flat = True
       Layout = blGlyphTop
+      OnClick = ButtonDeleteClick
       ExplicitLeft = 80
       ExplicitHeight = 58
     end
-    object SpeedButton4: TSpeedButton
+    object ButtonRefreshData: TSpeedButton
       Left = 252
       Top = 0
       Width = 84
@@ -86,7 +87,7 @@ object FrMenu: TFrMenu
       Images = DataModule1.ImageList1
       Flat = True
       Layout = blGlyphTop
-      OnClick = SpeedButton4Click
+      OnClick = ButtonRefreshDataClick
       ExplicitLeft = 80
       ExplicitHeight = 58
     end
@@ -118,7 +119,6 @@ object FrMenu: TFrMenu
       ActivePage = page01_register
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 251
       object page01_register: TTabSheet
         Caption = 'Informa'#231#245'es'
         object Label1: TLabel
@@ -181,7 +181,7 @@ object FrMenu: TFrMenu
           Caption = 'Unidade:'
           Layout = tlCenter
         end
-        object SpeedButton5: TSpeedButton
+        object BtnSelectFileImage: TSpeedButton
           Left = -1
           Top = 202
           Width = 124
@@ -189,17 +189,8 @@ object FrMenu: TFrMenu
           Caption = 'Selecionar Imagem'
           ImageIndex = 4
           Images = DataModule1.ImageList1
-          OnClick = SpeedButton5Click
-        end
-        object ImageRegister: TImage
-          AlignWithMargins = True
-          Left = 369
-          Top = 25
-          Width = 207
-          Height = 168
-          Center = True
-          Proportional = True
-          Stretch = True
+          Enabled = False
+          OnClick = BtnSelectFileImageClick
         end
         object Label7: TLabel
           Left = 184
@@ -305,6 +296,40 @@ object FrMenu: TFrMenu
           Height = 21
           TabOrder = 6
         end
+        object BtnRemoveImage: TButton
+          Left = 368
+          Top = 9
+          Width = 207
+          Height = 21
+          Cursor = crHandPoint
+          Caption = 'Remover Imagem'
+          TabOrder = 10
+          Visible = False
+          OnClick = BtnRemoveImageClick
+        end
+        object Panel5: TPanel
+          Left = 369
+          Top = 30
+          Width = 207
+          Height = 166
+          BevelInner = bvRaised
+          BevelKind = bkFlat
+          BevelOuter = bvNone
+          TabOrder = 11
+          object ImageRegister: TImage
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 195
+            Height = 154
+            Align = alClient
+            Center = True
+            Proportional = True
+            Stretch = True
+            ExplicitWidth = 182
+            ExplicitHeight = 158
+          end
+        end
       end
     end
   end
@@ -317,8 +342,7 @@ object FrMenu: TFrMenu
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitHeight = 238
-    object PageControl1: TPageControl
+    object PageControlGeral: TPageControl
       Left = 0
       Top = 0
       Width = 624
@@ -326,9 +350,7 @@ object FrMenu: TFrMenu
       ActivePage = page1
       Align = alClient
       TabOrder = 0
-      OnChange = PageControl1Change
-      ExplicitWidth = 601
-      ExplicitHeight = 238
+      OnChange = PageControlGeralChange
       object page1: TTabSheet
         Caption = 'Moedas'
         object Grid_Coins: TDBGrid
@@ -355,6 +377,7 @@ object FrMenu: TFrMenu
           TitleFont.Name = 'Tahoma'
           TitleFont.Style = []
           OnCellClick = Grid_CoinsCellClick
+          OnKeyUp = Grid_CoinsKeyUp
           Columns = <
             item
               Expanded = False
@@ -502,9 +525,6 @@ object FrMenu: TFrMenu
       Height = 227
       Align = alRight
       TabOrder = 1
-      ExplicitLeft = 626
-      ExplicitTop = 6
-      ExplicitHeight = 238
       object image01: TImage
         AlignWithMargins = True
         Left = 4
@@ -568,7 +588,7 @@ object FrMenu: TFrMenu
     Aggregates = <>
     Params = <>
     ProviderName = 'DataSetProvider'
-    Left = 738
+    Left = 754
     Top = 439
   end
   object DataSetProvider: TDataSetProvider

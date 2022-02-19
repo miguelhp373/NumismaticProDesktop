@@ -35,7 +35,7 @@ begin
   SqliteConnection.LoginPrompt := False;
 
   {$IF DEFINED (MSWINDOWS)}
-    SqliteConnection.Params.Values['DataBase'] := '${CAMINHO_DB}';
+    SqliteConnection.Params.Values['DataBase'] := '${\database\database.db}';
   {$ENDIF}
  SqliteConnection.Connected := True;
 end;
