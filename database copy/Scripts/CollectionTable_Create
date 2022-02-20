@@ -1,0 +1,14 @@
+CREATE TABLE CollectionTable
+(
+    Id        INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL  ,
+    Name      VARCHAR(255)                        NOT NULL  ,
+    Value     Integer                             NULL      ,
+    Unit      VARCHAR(50)                         NULL      ,
+    Country   VARCHAR(255)                        NULL      ,
+    Year      VARCHAR(10)                         NULL      ,
+    Type      VARCHAR(255)                        NULL      ,
+    Quantity  INTEGER                             NOT NULL  ,
+    Image     BLOB                                NULL      ,
+    Coin      CHAR(10)                            NOT NULL DEFAULT('FALSE'),
+    Bills     CHAR(10)                            NOT NULL DEFAULT('FALSE')
+)

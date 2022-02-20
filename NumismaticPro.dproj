@@ -86,6 +86,9 @@
         <DCC_ExeOutput>C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\exe\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <Icon_MainIcon>NumismaticPro_Icon.ico</Icon_MainIcon>
+        <UWP_DelphiLogo44>..\..\..\..\..\Downloads\icons_8_pack\30px\icons8-moedas-100.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>..\..\..\..\..\Downloads\icons_8_pack\30px\icons8-moedas-44.png</UWP_DelphiLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -140,9 +143,23 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
+                <DeployFile LocalName="..\..\..\..\..\Downloads\icons_8_pack\30px\icons8-moedas-44.png" Configuration="Debug" Class="UWP_DelphiLogo150">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo150x150.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="exe\NumismaticPro.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>NumismaticPro.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\..\..\Downloads\icons_8_pack\30px\icons8-moedas-100.png" Configuration="Debug" Class="UWP_DelphiLogo44">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

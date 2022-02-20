@@ -41,16 +41,12 @@ type
     Type_Edit: TEdit;
     Label6: TLabel;
     Unit_Edit: TEdit;
-    BtnSelectFileImage: TSpeedButton;
-    filePathText: TEdit;
     DsGridCoins: TDataSource;
     Grid_Coins: TDBGrid;
     ClientDataSet: TClientDataSet;
     DataSetProvider: TDataSetProvider;
     ReturnParametersProvider: TDataSetProvider;
     ReturnParametersDataSet: TClientDataSet;
-    Panel4: TPanel;
-    image01: TImage;
     OpenDialog1: TOpenDialog;
     chkCoin: TCheckBox;
     chk_bill: TCheckBox;
@@ -58,16 +54,22 @@ type
     Value_Edit: TEdit;
     lb_value: TLabel;
     BillsGrid: TDBGrid;
+    Panel4: TPanel;
+    image01: TImage;
+    image02: TImage;
     DsGridBills: TDataSource;
-    BtnRemoveImage: TButton;
-    Panel5: TPanel;
-    ImageRegister: TImage;
+    PopupMenu1: TPopupMenu;
+    button1pop: TMenuItem;
+    PopupMenu2: TPopupMenu;
+    button2pop: TMenuItem;
+    OpenDialog2: TOpenDialog;
+    RemoverImagem1: TMenuItem;
+    RemoverImagem2: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Info1Click(Sender: TObject);
     procedure Grid_CoinsCellClick(Column: TColumn);
     procedure ButtonRefreshDataClick(Sender: TObject);
     procedure BtnNewRegisterClick(Sender: TObject);
-    procedure BtnSelectFileImageClick(Sender: TObject);
     procedure chkCoinClick(Sender: TObject);
     procedure chk_billClick(Sender: TObject);
     procedure BtnSaveRegisterClick(Sender: TObject);
@@ -75,14 +77,18 @@ type
     procedure Grid_CoinsKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure SearchFieldChange(Sender: TObject);
-    procedure BtnRemoveImageClick(Sender: TObject);
     procedure ButtonDeleteClick(Sender: TObject);
+    procedure image02Click(Sender: TObject);
+    procedure button1popClick(Sender: TObject);
+    procedure button2popClick(Sender: TObject);
+    procedure RemoverImagem1Click(Sender: TObject);
+    procedure RemoverImagem2Click(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
   procedure RefreshImage(Field : TField; Img : TImage);
-  procedure LoaderImage;
+  procedure LoaderImage(ImgComponent : String);
   procedure ActionsDB(TypaAction: String);
   procedure SearchAction(Textsearch : String);  //FUNÇÃO DE BUSCA DO CAMPO SEARCH FIELD
   procedure LoadDataOnGrid;
@@ -107,7 +113,7 @@ uses U_DataModule,U_FrInfo;
 procedure TFrMenu.FormCreate(Sender: TObject);
 begin
   //Define Version
-  GlbInfoVersion  :=  '1.0.1';
+  GlbInfoVersion  :=  '1.0.2';
 
 
   ActiveControl   :=  pageControl;
@@ -137,7 +143,12 @@ begin
   end;
 
   LoadDataOnActionsGrid;
-  BtnSelectFileImage.Enabled := True;
+
+  IdFieldAction := ClientDataSet.FieldByName('Id').AsInteger;  
+  
+  button1pop.Caption  := 'Atualizar Imagem Frente';
+  button1pop.Caption  := 'Atualizar Imagem Verso';
+
 end;
 
 procedure TFrMenu.Grid_CoinsKeyUp(Sender: TObject; var Key: Word;
@@ -154,6 +165,11 @@ begin
   end;
 
   LoadDataOnActionsGrid;
+end;
+
+procedure TFrMenu.image02Click(Sender: TObject);
+begin
+
 end;
 
 ////////////////////////////////////////////////////////////
@@ -174,25 +190,49 @@ end;
 ////////////////////////////////////////////////////////////
 //LOAD IMAGE
 
-procedure TFrMenu.LoaderImage;
+procedure TFrMenu.LoaderImage(ImgComponent : String);
 Var 
-  JPG : TJPegImage; 
+  JPG1 : TJPegImage;
+  JPG2 : TJPegImage;
 begin 
- ImageRegister.Picture.Assign(nil);
-  If OpenDialog1.Execute Then
+
+  if ImgComponent = '1' then
+  begin
+    image01.Picture.Assign(nil);
+    If OpenDialog1.Execute Then
+      Begin
+        Try
+          JPG1 := TJPEGImage.Create();
+          JPG1.LoadFromFile(OpenDialog1.FileName);
+          image01.Picture.Assign(JPG1);
+        Finally
+             FreeAndNil(JPG1);
+        End;
+    End;
+  End;
+
+
+  if ImgComponent = '2' then
+  begin
+    image02.Picture.Assign(nil);
+    If OpenDialog2.Execute Then
     Begin
       Try
-        JPG := TJPEGImage.Create(); 
-        JPG.LoadFromFile(OpenDialog1.FileName); 
-        ImageRegister.Picture.Assign(JPG); 
-    Finally 
-         FreeAndNil(JPG);      
-    End;
-    
-  End; 
+        JPG2 := TJPEGImage.Create();
+        JPG2.LoadFromFile(OpenDialog2.FileName);
+        image02.Picture.Assign(JPG2);
+      Finally
+         FreeAndNil(JPG2);
+      End;
+    end;
+  end;
 
-  filePathText.Text :=  OpenDialog1.FileName; 
-  
+end;
+
+procedure TFrMenu.button2popClick(Sender: TObject);
+begin
+  LoaderImage('2');
+  ActiveControl := Name_Edit;
 end;
 
 ////////////////////////////////////////////////////////////
@@ -203,13 +243,12 @@ end;
 procedure TFrMenu.LoadDataOnActionsGrid;
 begin
   image01.Picture.Assign(nil);
+  image02.Picture.Assign(nil);
 
 
   StatusBar_Bottom.Panels[2].Text := IntToStr(Grid_Coins.SelectedRows.Count)+ ' Moedas(s) Selecionadas';
-  RefreshImage(ClientDataSet.FieldByName('Image'),image01);
-  //RefreshImage(ClientDataSet.FieldByName('Image'),ImageRegister);
-
-  if ImageRegister.Picture = nil then filePathText.Text := '';
+  RefreshImage(ClientDataSet.FieldByName('ImageFront'),image01);
+  RefreshImage(ClientDataSet.FieldByName('ImageBack'),image02);
 
   Name_Edit.Text    :=  ClientDataSet.FieldByName('Name').asString;
   Value_Edit.Text   :=  ClientDataSet.FieldByName('Value').asString;
@@ -218,6 +257,7 @@ begin
   Year_Edit.Text    :=  ClientDataSet.FieldByName('Year').asString;
   Type_Edit.Text    :=  ClientDataSet.FieldByName('Type').asString;
   Qtd_Edit.Text     :=  ClientDataSet.FieldByName('Quantity').asString;
+
   if  ClientDataSet.FieldByName('Coin').asString  = 'TRUE'  then
   begin
     chkCoin.Checked     := True;
@@ -370,25 +410,13 @@ end;
 
 procedure TFrMenu.PageControlGeralChange(Sender: TObject);
 begin
+  if  ClientDataSet.Active = False  then  abort;
+
   SearchField.Text := '';
   ButtonRefreshDataClick(ButtonRefreshData);
 end;
 
 ////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////
-// LOAD FILE EXPLORER
-
-procedure TFrMenu.BtnSelectFileImageClick(Sender: TObject);
-begin
-  LoaderImage;
-  BtnRemoveImage.Visible := True;
-  ActiveControl := Name_Edit;
-end;
-
-////////////////////////////////////////////////////////////
-
 
 ////////////////////////////////////////////////////////////
 // SHOW IMAGE ON TIMAGE
@@ -427,6 +455,18 @@ begin
     vStream.Free;
   end;
 
+end;
+
+procedure TFrMenu.RemoverImagem1Click(Sender: TObject);
+begin
+  image01.Picture.Assign(nil);
+  OpenDialog1.FileName  :=  '';
+end;
+
+procedure TFrMenu.RemoverImagem2Click(Sender: TObject);
+begin
+  image02.Picture.Assign(nil);
+  OpenDialog2.FileName  :=  '';
 end;
 
 ////////////////////////////////////////////////////////////
@@ -547,6 +587,7 @@ begin
     ActionsDB('DEL');
 
     ButtonRefreshDataClick(ButtonRefreshData);
+    BtnNewRegisterClick(BtnNewRegister);
   end;
 
 end;
@@ -558,6 +599,10 @@ end;
  ////////////////////////////////////////////////////////////
  //DB ACTIONS
 procedure TFrMenu.ActionsDB(TypaAction: String);
+var
+  Stream1: TMemoryStream;
+  Stream2: TMemoryStream;
+  ResultModal: Integer;  
 begin
  if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
     if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
@@ -568,8 +613,9 @@ begin
         begin
           SQL.Clear;
           SQL.Add('INSERT INTO  CollectionTable');
-          SQL.Add('(Image, Name, Value, Unit, Country, Year, Type, Quantity, Coin, Bills)VALUES');        
-          SQL.Add('(:Image, :Name, :Value, :Unit, :Country, :Year, :Type, :Quantity, :Coin, :Bills)');                
+
+          SQL.Add('(ImageFront, ImageBack, Name, Value, Unit, Country, Year, Type, Quantity, Coin, Bills)VALUES');
+          SQL.Add('(:ImageFront, :ImageBack, :Name, :Value, :Unit, :Country, :Year, :Type, :Quantity, :Coin, :Bills)');
           ParamByName('Name'    ).AsString := Name_Edit.Text;
           ParamByName('Value'   ).AsString := Value_Edit.Text;
           ParamByName('Unit'    ).AsString := Unit_Edit.Text;
@@ -577,7 +623,25 @@ begin
           ParamByName('Year'    ).AsString := Year_Edit.Text;
           ParamByName('Type'    ).AsString := Type_Edit.Text;
           ParamByName('Quantity').AsString := Qtd_Edit.Text;
-          ParamByName('Image').LoadFromFile(filePathText.Text,FtBlob);
+          
+
+          Stream1 := TMemoryStream.Create; 
+          Stream2 := TMemoryStream.Create; 
+
+          if image01.Picture <> nil then 
+            begin
+             image01.Picture.SaveToStream(Stream1);
+             ParamByName('ImageFront').LoadFromStream(Stream1,ftBlob);
+            end
+          else                           ParamByName('ImageFront').LoadFromFile('',FtBlob);            
+
+          if image02.Picture <> nil then 
+            begin
+             image02.Picture.SaveToStream(Stream2);
+             ParamByName('ImageBack').LoadFromStream(Stream2,ftBlob);
+            end
+          else                           ParamByName('ImageBack').LoadFromFile('',FtBlob); 
+          
           if chkCoin.Checked = True then
           begin
             ParamByName('Coin'    ).AsString := 'TRUE';
@@ -590,17 +654,27 @@ begin
           end;
           ExecSQL();
 
-          ShowMessage('Registro Com Sucesso!');
+          ShowMessage('Salvo Com Sucesso!');
       end;
     end;
 
     if(TypaAction = 'UPD')then
-    begin
+    begin        
+
+      ResultModal := MessageDlg('Deseja Alterar o Registro?', mtConfirmation, [mbYes, mbNo{, mbCancel}], 0);
+
+      if ResultModal =  7  then  
+      begin
+            ButtonRefreshDataClick(ButtonRefreshData);
+            BtnNewRegisterClick(BtnNewRegister);
+            abort;
+      end;
+    
        With DataModule1.SqlActions do
         begin
           SQL.Clear;
           SQL.Add('UPDATE CollectionTable SET');
-          SQL.Add('Image = :Image, Name = :Name, Value = :Value, Unit = :Unit, Country = :Country, Year = :Year, Type = :Type, Quantity = :Quantity');
+          SQL.Add('ImageFront = :ImageFront, ImageBack = :ImageBack, Name = :Name, Value = :Value, Unit = :Unit, Country = :Country, Year = :Year, Type = :Type, Quantity = :Quantity');
           SQL.Add('WHERE Id = :Id');
 
           ParamByName('Name'    ).AsString := Name_Edit.Text;
@@ -610,10 +684,33 @@ begin
           ParamByName('Year'    ).AsString := Year_Edit.Text;
           ParamByName('Type'    ).AsString := Type_Edit.Text;
           ParamByName('Quantity').AsString := Qtd_Edit.Text;
-          if filePathText.Text <> '' then ParamByName('Image').LoadFromFile(filePathText.Text,FtBlob);
+
+          Stream1 := TMemoryStream.Create; 
+          Stream2 := TMemoryStream.Create; 
+
+          if image01.Picture <> nil then 
+            begin
+             image01.Picture.SaveToStream(Stream1);
+             ParamByName('ImageFront').LoadFromStream(Stream1,ftBlob);
+            end
+          else                           ParamByName('ImageFront').LoadFromFile('',FtBlob);            
+
+          if image02.Picture <> nil then 
+            begin
+             image02.Picture.SaveToStream(Stream2);
+             ParamByName('ImageBack').LoadFromStream(Stream2,ftBlob);
+            end
+          else                           ParamByName('ImageBack').LoadFromFile('',FtBlob);           
+
           ParamByName('Id').asInteger := IdFieldAction;
+
           ExecSQL();
+
           ShowMessage('Alterado Com Sucesso!');
+
+          Stream1.Free;
+          Stream2.Free;
+          
       end;
     end;
 
@@ -627,7 +724,7 @@ begin
 
           ParamByName('Id').asInteger := IdFieldAction;
           ExecSQL();
-          ShowMessage('Registro Apagado Com Sucesso!');
+          ShowMessage('Apagado Com Sucesso!');
       end;
     end;
 end;
@@ -638,27 +735,33 @@ end;
 ////////////////////////////////////////////////////////////
 // BTN NEW COIN OR BILLS
 
+procedure TFrMenu.button1popClick(Sender: TObject);
+begin
+  LoaderImage('1');
+  ActiveControl := Name_Edit;
+end;
+
 procedure TFrMenu.BtnNewRegisterClick(Sender: TObject);
 begin
+  IdFieldAction       :=  0;
   Name_Edit.Text      := '';
   Country_Edit.Text   := '';
   Qtd_Edit.Text       := '';
   Year_Edit.Text      := '';
   Type_Edit.Text      := '';
   Unit_Edit.Text      := '';
-  filePathText.Text   := '';
+  Value_Edit.Text     := '';
   chkCoin.Checked     := False;
   chk_bill.Checked    := False;  
-  ImageRegister.Picture.Assign(nil);
-  BtnSelectFileImage.Enabled := True;
+  image01.Picture.Assign(nil);
+  image02.Picture.Assign(nil);
+  OpenDialog1.FileName  :=  '';
+  OpenDialog2.FileName  :=  '';
+
+  button1pop.Caption  := 'Adicionar Imagem Frente';
+  button1pop.Caption  := 'Adicionar Imagem Verso';
 
   ActiveControl       := Name_Edit;
-end;
-
-procedure TFrMenu.BtnRemoveImageClick(Sender: TObject);
-begin
-  ImageRegister.Picture.Assign(nil);
-  BtnRemoveImage.Visible := False;
 end;
 
 ////////////////////////////////////////////////////////////
@@ -669,9 +772,70 @@ end;
 procedure TFrMenu.BtnSaveRegisterClick(Sender: TObject);
 begin
 
-  IdFieldAction := 0;
+   /////////////////////////////////////////////////
+   //VALIDATION FIELDS
 
-  if ClientDataSet.Active <> False then  IdFieldAction := ClientDataSet.FieldByName('Id').AsInteger;
+   if Trim(Name_Edit.Text) = ''  then
+   begin
+    ShowMessage('Campo Nome Não Pode Ficar Vazio!');
+    ActiveControl :=  Name_Edit;
+    abort;
+   end;
+
+   if Trim(Country_Edit.Text) = ''  then
+   begin
+    ShowMessage('Campo Pais Não Pode Ficar Vazio!');
+    ActiveControl :=  Country_Edit;
+    abort;
+   end;   
+
+   if Trim(Qtd_Edit.Text) = ''  then
+   begin
+    ShowMessage('Campo Quantidade Não Pode Ficar Vazio!');
+    ActiveControl :=  Qtd_Edit;
+    abort;
+   end; 
+
+   if Trim(Year_Edit.Text) = ''  then
+   begin
+    ShowMessage('Campo Ano Não Pode Ficar Vazio!');
+    ActiveControl :=  Year_Edit;
+    abort;
+   end;   
+
+   if Trim(Type_Edit.Text) = ''  then
+   begin
+    ShowMessage('Campo Tipo Não Pode Ficar Vazio!');
+    ActiveControl :=  Type_Edit;
+    abort;
+   end;
+
+   if Trim(Unit_Edit.Text) = ''  then
+   begin
+    ShowMessage('Campo Unidade Não Pode Ficar Vazio!');
+    ActiveControl :=  Unit_Edit;
+    abort;
+   end;       
+
+   if Trim(Value_Edit.Text) = ''  then
+   begin
+    ShowMessage('Campo Valor Não Pode Ficar Vazio!');
+    ActiveControl :=  Value_Edit;
+    abort;
+   end;         
+
+   if chkCoin.Checked = False and chk_bill.Checked = False then
+   begin
+    ShowMessage('Escolha uma Coleção!');
+    ActiveControl :=  chkCoin;
+    abort;
+   end;
+
+   /////////////////////////////////////////////////
+
+
+
+    if IdFieldAction <> 0 then  IdFieldAction := ClientDataSet.FieldByName('Id').AsInteger;
 
     if(IdFieldAction > 0)then ActionsDB('UPD')
     else                      ActionsDB('NEW');

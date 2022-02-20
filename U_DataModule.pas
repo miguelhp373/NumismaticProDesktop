@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, System.ImageList, Vcl.ImgList, Vcl.Controls,
   Data.DB, Data.SqlExpr, Data.DbxSqlite, Data.FMTBcd, Datasnap.Provider,
-  Datasnap.DBClient;
+  Datasnap.DBClient,Vcl.Dialogs,Vcl.Forms;
 
 type
   TDataModule1 = class(TDataModule)
@@ -30,14 +30,23 @@ implementation
 {$R *.dfm}
 
 procedure TDataModule1.DataModuleCreate(Sender: TObject);
+var
+  path  : String;
 begin
-  SqliteConnection.Params.Values['DriverID'] := 'SQLite';
-  SqliteConnection.LoginPrompt := False;
+  path := ExtractFilePath(ParamStr(0));
 
-  {$IF DEFINED (MSWINDOWS)}
-    SqliteConnection.Params.Values['DataBase'] := '${\database\database.db}';
-  {$ENDIF}
- SqliteConnection.Connected := True;
+  try
+    SqliteConnection.Params.Values['DataBase'] := path + 'database.db';
+
+    SqliteConnection.Connected := True;
+  except
+    on e:exception do
+    begin
+      ShowMessage('Erro: 26'+#13+'Não Foi Possivel Iniciar a Aplicação.'+ #13 +'Banco de Dados Não Encontrado!'+#13+'Reinstale a Aplicação.');
+      Application.Terminate()
+    end;
+  end;
+
 end;
 
 end.

@@ -31,9 +31,6 @@ Coordinates=10,78,53,58
 [Label3]
 Coordinates=315,10,53,58
 
-[filePathText]
-Coordinates=96,10,83,58
-
 [Label2]
 Coordinates=189,10,53,58
 
@@ -50,7 +47,7 @@ Coordinates=252,10,53,58
 Coordinates=289,317,87,36
 
 []
-Coordinates=558,111,136,36
+Coordinates=187,214,96,36
 
 [Grid_Coins]
 Coordinates=260,360,64,36
@@ -85,9 +82,6 @@ Coordinates=105,260,50,36
 
 [page1]
 Coordinates=307,146,77,36
-
-[BtnSelectFileImage]
-Coordinates=187,214,96,36
 
 [BtnSaveRegister]
 Coordinates=293,214,96,36
