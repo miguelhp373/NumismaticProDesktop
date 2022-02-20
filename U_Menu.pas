@@ -111,14 +111,20 @@ uses U_DataModule,U_FrInfo;
 //FORM CREATE
 
 procedure TFrMenu.FormCreate(Sender: TObject);
+var
+  path  : String;
 begin
   //Define Version
   GlbInfoVersion  :=  '1.0.2';
+
+  path := ExtractFilePath(ParamStr(0));
+
 
 
   ActiveControl   :=  pageControl;
   Self.Caption    :=  'Numismatic Pro Desktop - Vs' + GlbInfoVersion + ' - 2022 - Beta';
 
+  StatusBar_Bottom.Panels[0].Text  :=  path + 'database.db';
   DsGridCoins.DataSet.Active      := False;
   ReturnParametersDataSet.Active  := False;
 end;

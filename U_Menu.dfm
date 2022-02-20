@@ -586,8 +586,7 @@ object FrMenu: TFrMenu
     Panels = <
       item
         Alignment = taRightJustify
-        Text = 'C:\Program Files\NumismaticPro\database.db'
-        Width = 400
+        Width = 600
       end
       item
         Text = '21 / 21'
