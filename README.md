@@ -2,9 +2,9 @@
   <img src='.github/NumismaticPro_Icon.ico' style='width:150px;height:150px;'/>
  </div>
 
-# Poupa+
+# Numismatic Pro Dektop
 
-**Essa plataforma foi desenvolvida para facilitar a gestão de suas finanças pessoais, descomplicando o dia a dia e trazendo informações de fácil visualização para que você entenda para onde está indo seu dinheiro e onde você pode economizar.**
+**💰 Aplicação Desktop Para Destinada a Colecionadores , Para Organização De Moedas e Notas Colecionáveis em Português.**
 
 ---
 
