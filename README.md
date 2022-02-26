@@ -12,7 +12,6 @@
 
 - Delphi10
 - Sqlite
-/*
 ---
 ## 🛠️ Instalação
 
@@ -23,7 +22,6 @@
 
 ![.github/interface.jpeg](.github/interface.jpeg)
 
----
  ***
  # 📝 License
 
