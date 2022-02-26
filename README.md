@@ -2,7 +2,7 @@
   <img src='.github/NumismaticPro_Icon.ico' style='width:150px;height:150px;'/>
  </div>
 
-# Numismatic Pro Dektop
+# Numismatic Pro Desktop
 
 **💰 Aplicação Desktop Para Destinada a Colecionadores , Para Organização De Moedas e Notas Colecionáveis em Português.**
 
