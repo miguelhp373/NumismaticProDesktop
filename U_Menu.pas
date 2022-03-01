@@ -116,19 +116,20 @@ var
   path  : String;
 begin
   //Define Version
-  GlbInfoVersion  :=  '1.0.2';
+  GlbInfoVersion  :=  '2.0.0';
 
   path := ExtractFilePath(ParamStr(0));
 
 
 
   ActiveControl   :=  pageControl;
-  Self.Caption    :=  'Numismatic Pro Desktop - Vs' + GlbInfoVersion + ' - 2022 - Beta';
+  Self.Caption    :=  'Numismatic Pro Desktop - Vs' + GlbInfoVersion + ' - 2022';
 
   StatusBar_Bottom.Panels[0].Text  :=  path + 'database.db';
   DsGridCoins.DataSet.Active      := False;
   ReturnParametersDataSet.Active  := False;
 end;
+
 
 ////////////////////////////////////////////////////////////
 

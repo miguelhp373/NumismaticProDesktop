@@ -132,6 +132,7 @@ object FrMenu: TFrMenu
     001CF000001CFC00001CFFF0001CFFF0001CFFF0001CFFF0001CFFF0001CFFF0
     001CFFF0001CFFF0001CFFF0001CFFF0001CFFF0001CFFF0001CFFFC00FCFFFF
     FFFCFFFFFFFC}
+  KeyPreview = True
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
@@ -645,6 +646,8 @@ object FrMenu: TFrMenu
     Top = 224
     object Configuraes1: TMenuItem
       Caption = 'Configura'#231#245'es'
+      Enabled = False
+      Visible = False
       OnClick = Configuraes1Click
     end
     object Info1: TMenuItem
