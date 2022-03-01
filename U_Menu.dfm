@@ -645,6 +645,7 @@ object FrMenu: TFrMenu
     Top = 224
     object Configuraes1: TMenuItem
       Caption = 'Configura'#231#245'es'
+      OnClick = Configuraes1Click
     end
     object Info1: TMenuItem
       Caption = 'Info'

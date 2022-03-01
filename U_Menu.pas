@@ -83,6 +83,7 @@ type
     procedure button2popClick(Sender: TObject);
     procedure RemoverImagem1Click(Sender: TObject);
     procedure RemoverImagem2Click(Sender: TObject);
+    procedure Configuraes1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -102,7 +103,7 @@ var
 
 implementation
 
-uses U_DataModule,U_FrInfo;
+uses U_DataModule, U_FrInfo, U_Config;
 
 {$R *.dfm}
 
@@ -179,6 +180,12 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////
+// OPEN CONFIG MODAL
+procedure TFrMenu.Configuraes1Click(Sender: TObject);
+begin
+  Application.CreateForm(TFrConfig,FrConfig);
+  FrConfig.ShowModal;
+end;
 
 
 ////////////////////////////////////////////////////////////
@@ -667,14 +674,9 @@ begin
     if(TypaAction = 'UPD')then
     begin        
 
-      ResultModal := MessageDlg('Deseja Alterar o Registro?', mtConfirmation, [mbYes, mbNo{, mbCancel}], 0);
+      ResultModal := MessageDlg('Deseja Alterar o Registro?', mtConfirmation, [mbYes, mbNo{, mbCancel}],0);
 
-      if ResultModal =  7  then  
-      begin
-            ButtonRefreshDataClick(ButtonRefreshData);
-            BtnNewRegisterClick(BtnNewRegister);
-            abort;
-      end;
+      if ResultModal =  7  then abort;
     
        With DataModule1.SqlActions do
         begin
@@ -830,7 +832,7 @@ begin
     abort;
    end;         
 
-   if chkCoin.Checked = False and chk_bill.Checked = False then
+   if ((chkCoin.Checked = False) and (chk_bill.Checked = False)) then
    begin
     ShowMessage('Escolha uma Coleção!');
     ActiveControl :=  chkCoin;
