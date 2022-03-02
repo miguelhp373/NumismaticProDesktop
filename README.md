@@ -15,7 +15,7 @@
 ---
 ## 🛠️ Instalação
 
- - Baixe o Setup.exe [Clicando Aqui](https://github.com/miguelhp373/NumismaticProDesktop/raw/main/Setup/Setup_NPD_vs2.0.1.rar)
+ - Baixe o Setup.exe [Clicando Aqui](https://github.com/miguelhp373/NumismaticProDesktop/raw/main/Setup/Setup.rar)
 ## **🎨Layout**
 
 ### 🏠 Interface
