@@ -2,7 +2,7 @@ object FrConfig: TFrConfig
   Left = 0
   Top = 0
   Caption = 'Configura'#231#245'es'
-  ClientHeight = 457
+  ClientHeight = 192
   ClientWidth = 357
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -132,36 +132,75 @@ object FrConfig: TFrConfig
     FFFCFFFFFFFC}
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 357
-    Height = 457
+    Height = 192
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = 256
-    ExplicitTop = 176
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object PageControl1: TPageControl
       AlignWithMargins = True
       Left = 3
       Top = 3
       Width = 351
-      Height = 451
+      Height = 186
       ActivePage = Page01
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 357
-      ExplicitHeight = 457
       object Page01: TTabSheet
-        Caption = '   Banco de Dados   '
+        Caption = 'Banco de Dados'
+        object SaveBackupButton: TSpeedButton
+          Left = 16
+          Top = 74
+          Width = 307
+          Height = 33
+          Cursor = crHandPoint
+          Caption = 'Criar Backup Do Banco de Dados'
+          OnClick = SaveBackupButtonClick
+        end
+        object Label1: TLabel
+          Left = 16
+          Top = 16
+          Width = 61
+          Height = 21
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Meu Backup:'
+          Layout = tlCenter
+        end
+        object pathBackup: TEdit
+          AlignWithMargins = True
+          Left = 16
+          Top = 43
+          Width = 307
+          Height = 22
+          AutoSize = False
+          BevelInner = bvLowered
+          BorderStyle = bsNone
+          Color = clScrollBar
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+        end
       end
     end
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.db'
+    Filter = 'Todos os Arquivos|*.db'
+    InitialDir = '/downloads'
+    Title = 'Selecione a Pasta Para Salvar o Backup do Banco de Dados'
+    Left = 23
+    Top = 139
   end
 end

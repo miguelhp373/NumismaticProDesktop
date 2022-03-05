@@ -136,6 +136,7 @@ object FrMenu: TFrMenu
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -646,8 +647,6 @@ object FrMenu: TFrMenu
     Top = 224
     object Configuraes1: TMenuItem
       Caption = 'Configura'#231#245'es'
-      Enabled = False
-      Visible = False
       OnClick = Configuraes1Click
     end
     object Info1: TMenuItem

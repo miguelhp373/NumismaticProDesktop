@@ -18,10 +18,11 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure ConnectionExecute(pathFile : String);
   end;
 
 var
-  DataModule1: TDataModule1;
+  DataModule1 : TDataModule1;
 
 implementation
 
@@ -29,21 +30,39 @@ implementation
 
 {$R *.dfm}
 
+uses U_SelectDatabase, U_Menu;
+
+procedure TDataModule1.ConnectionExecute(pathFile : String);
+begin
+    SqliteConnection.Params.Values['DataBase'] := pathFile + 'database.db';
+    SqliteConnection.Connected := True;
+end;
+
 procedure TDataModule1.DataModuleCreate(Sender: TObject);
 var
+  error : boolean;
   path  : String;
 begin
   path := ExtractFilePath(ParamStr(0));
 
   try
-    SqliteConnection.Params.Values['DataBase'] := path + 'database.db';
-
-    SqliteConnection.Connected := True;
+    ConnectionExecute(path);
   except
     on e:exception do
     begin
-      ShowMessage('Erro: 26'+#13+'Não Foi Possivel Iniciar a Aplicação.'+ #13 +'Banco de Dados Não Encontrado!'+#13+'Reinstale a Aplicação.');
-      Application.Terminate()
+      Connected_Validation := False;
+
+      Application.CreateForm(TFrSelectDatabase,FrSelectDatabase);
+      FrSelectDatabase.ShowModal;
+
+      if Connected_Validation = True then
+      begin
+        ConnectionExecute(path);
+        FrSelectDatabase.Free;
+        Application.CreateForm(TFrMenu,FrMenu);
+        FrMenu.ShowModal;
+      end;
+
     end;
   end;
 

@@ -84,6 +84,7 @@ type
     procedure RemoverImagem1Click(Sender: TObject);
     procedure RemoverImagem2Click(Sender: TObject);
     procedure Configuraes1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -111,12 +112,18 @@ uses U_DataModule, U_FrInfo, U_Config;
 ////////////////////////////////////////////////////////////
 //FORM CREATE
 
+procedure TFrMenu.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  self.Free;
+  Application.Terminate;
+end;
+
 procedure TFrMenu.FormCreate(Sender: TObject);
 var
   path  : String;
 begin
   //Define Version
-  GlbInfoVersion  :=  '2.0.0';
+  GlbInfoVersion  :=  '2.1.1';
 
   path := ExtractFilePath(ParamStr(0));
 
@@ -593,7 +600,18 @@ var
   ResultModal: Integer;
 
 begin
-  ResultModal := MessageDlg('Deseja Apagar o Registro?', mtConfirmation, [mbYes, mbNo{, mbCancel}], 0);
+
+  if PageControlGeral.ActivePage = page1 then
+  begin
+    if  DsGridCoins.DataSet.Active = False  then  abort;
+  end;
+
+  if PageControlGeral.ActivePage = page2 then
+  begin
+    if  DsGridBills.DataSet.Active = False  then  abort;
+  end;
+
+  ResultModal := MessageDlg('Deseja Apagar o Registro: '+ ClientDataSet.FieldByName('Name').asString + '?', mtConfirmation, [mbYes, mbNo{, mbCancel}], 0);
 
   if ResultModal =  mrYes  then
   begin
@@ -734,6 +752,7 @@ begin
           ParamByName('Id').asInteger := IdFieldAction;
           ExecSQL();
           ShowMessage('Apagado Com Sucesso!');
+          BtnNewRegisterClick(BtnNewRegister);
       end;
     end;
 end;

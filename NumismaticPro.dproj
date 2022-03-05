@@ -122,6 +122,10 @@
             <Form>FrConfig</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="U_SelectDatabase.pas">
+            <Form>FrSelectDatabase</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
