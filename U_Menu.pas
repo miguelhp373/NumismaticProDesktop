@@ -65,6 +65,9 @@ type
     OpenDialog2: TOpenDialog;
     RemoverImagem1: TMenuItem;
     RemoverImagem2: TMenuItem;
+    Button2: TButton;
+    SpeedButton1: TSpeedButton;
+    cb_orderbylist: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure Info1Click(Sender: TObject);
     procedure Grid_CoinsCellClick(Column: TColumn);
@@ -85,6 +88,9 @@ type
     procedure RemoverImagem2Click(Sender: TObject);
     procedure Configuraes1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure cb_orderbylistChange(Sender: TObject);
+    procedure Value_EditExit(Sender: TObject);
+    procedure Year_EditExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -123,7 +129,7 @@ var
   path  : String;
 begin
   //Define Version
-  GlbInfoVersion  :=  '2.1.1';
+  GlbInfoVersion  :=  '2.1.2';
 
   path := ExtractFilePath(ParamStr(0));
 
@@ -135,6 +141,8 @@ begin
   StatusBar_Bottom.Panels[0].Text  :=  path + 'database.db';
   DsGridCoins.DataSet.Active      := False;
   ReturnParametersDataSet.Active  := False;
+
+  ButtonRefreshDataClick(ButtonRefreshData);//LoadData
 end;
 
 
@@ -227,7 +235,8 @@ begin
           JPG1.LoadFromFile(OpenDialog1.FileName);
           image01.Picture.Assign(JPG1);
         Finally
-             FreeAndNil(JPG1);
+            Application.MessageBox('Operação Cancelada! Não Foi Possivel Selecionar a Imagem, Tente Novamente.','Numismatic Pro Desktop',48);
+            FreeAndNil(JPG1);
         End;
     End;
   End;
@@ -243,6 +252,7 @@ begin
         JPG2.LoadFromFile(OpenDialog2.FileName);
         image02.Picture.Assign(JPG2);
       Finally
+            Application.MessageBox('Operação Cancelada! Não Foi Possivel Selecionar a Imagem, Tente Novamente.','Numismatic Pro Desktop',48);
          FreeAndNil(JPG2);
       End;
     end;
@@ -272,7 +282,7 @@ begin
   RefreshImage(ClientDataSet.FieldByName('ImageBack'),image02);
 
   Name_Edit.Text    :=  ClientDataSet.FieldByName('Name').asString;
-  Value_Edit.Text   :=  ClientDataSet.FieldByName('Value').asString;
+  Value_Edit.Text   :=  Formatfloat('#####0.00',ClientDataSet.FieldByName('Value').asFloat);
   Unit_Edit.Text    :=  ClientDataSet.FieldByName('Unit').asString;
   Country_Edit.Text :=  ClientDataSet.FieldByName('Country').asString;
   Year_Edit.Text    :=  ClientDataSet.FieldByName('Year').asString;
@@ -309,7 +319,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT * FROM CollectionTable');
         SQL.Add('WHERE  Coin = "TRUE"');
-        SQL.Add('ORDER BY Name DESC');
+        SQL.Add('ORDER BY Name Year, Country');
         Open;
       end;
   end;
@@ -325,7 +335,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT * FROM CollectionTable');
         SQL.Add('WHERE  Bills = "TRUE"');
-        SQL.Add('ORDER BY Name DESC');
+        SQL.Add('ORDER BY Name Year, Country');
         Open;
       end;
   end;
@@ -361,7 +371,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT * FROM CollectionTable');
         SQL.Add('WHERE  Coin = "TRUE"');
-        SQL.Add('ORDER BY Name DESC');
+        SQL.Add('ORDER BY Year, Country');
         Open;
 
         DsGridCoins.DataSet.Active := True;
@@ -391,7 +401,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT * FROM CollectionTable');
         SQL.Add('WHERE  Bills = "TRUE"');
-        SQL.Add('ORDER BY Name DESC');
+        SQL.Add('ORDER BY Year, Country');
         Open;
 
         DsGridBills.DataSet.Active := True;
@@ -420,7 +430,7 @@ begin
     end;
 
     StatusBar_Bottom.Panels[1].Text := TotalRegistersCoins + '/' + TotalRegistersGeneral;
-
+    Grid_CoinsCellClick(Grid_Coins.Columns[0]);
 end;
 
 ////////////////////////////////////////////////////////////
@@ -525,7 +535,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT * FROM CollectionTable');
         SQL.Add('WHERE Name LIKE :TextParam AND Coin = "TRUE"');
-        SQL.Add('ORDER BY Name DESC');
+        SQL.Add('ORDER BY Name Year, Country');
 
         ParambyName('TextParam').AsString :=  '%' + Textsearch  + '%';
         Open;
@@ -567,7 +577,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT * FROM CollectionTable');
         SQL.Add('WHERE Name LIKE :TextParam AND  Bills = "TRUE"');
-        SQL.Add('ORDER BY Name DESC');
+        SQL.Add('ORDER BY Name Year, Country');
         ParambyName('TextParam').AsString :=  '%' + Textsearch  + '%';
         Open;
 
@@ -593,6 +603,29 @@ end;
 procedure TFrMenu.SearchFieldChange(Sender: TObject);
 begin
   SearchAction(SearchField.Text);
+end;
+
+procedure TFrMenu.Value_EditExit(Sender: TObject);
+begin
+  Value_Edit.Text:= Formatfloat('#####0.00',strtofloat(Value_Edit.Text));
+end;
+
+procedure TFrMenu.Year_EditExit(Sender: TObject);
+var
+  validate_auxiliar :  integer;
+begin
+  Try
+    validate_auxiliar :=  StrToInt(Year_Edit.Text);
+  Except
+    Application.MessageBox('Operação Cancelada! Ano Inválido - #001','Numismatic Pro Desktop',48);
+    Abort;
+  End;
+
+  if not ((validate_auxiliar  > 1800)  and (validate_auxiliar < 2999))then
+  begin
+    Application.MessageBox('Operação Cancelada! Ano Inválido - #002','Numismatic Pro Desktop',48);
+    Abort;
+  end;
 end;
 
 procedure TFrMenu.ButtonDeleteClick(Sender: TObject);
@@ -649,7 +682,7 @@ begin
           SQL.Add('(ImageFront, ImageBack, Name, Value, Unit, Country, Year, Type, Quantity, Coin, Bills)VALUES');
           SQL.Add('(:ImageFront, :ImageBack, :Name, :Value, :Unit, :Country, :Year, :Type, :Quantity, :Coin, :Bills)');
           ParamByName('Name'    ).AsString := Name_Edit.Text;
-          ParamByName('Value'   ).AsString := Value_Edit.Text;
+          ParamByName('Value'   ).asFloat  := StrToFloat(Value_Edit.Text);
           ParamByName('Unit'    ).AsString := Unit_Edit.Text;
           ParamByName('Country' ).AsString := Country_Edit.Text;
           ParamByName('Year'    ).AsString := Year_Edit.Text;
@@ -687,6 +720,7 @@ begin
           ExecSQL();
 
           ShowMessage('Salvo Com Sucesso!');
+    Abort;
       end;
     end;
 
@@ -798,6 +832,8 @@ end;
 // BUTTON SAVE REGISTER
 
 procedure TFrMenu.BtnSaveRegisterClick(Sender: TObject);
+var
+  validate_auxiliar : Integer;
 begin
 
    /////////////////////////////////////////////////
@@ -829,7 +865,20 @@ begin
     ShowMessage('Campo Ano Não Pode Ficar Vazio!');
     ActiveControl :=  Year_Edit;
     abort;
-   end;   
+   end;
+
+  Try
+    validate_auxiliar :=  StrToInt(Year_Edit.Text);
+  Finally
+    Application.MessageBox('Operação Cancelada! Ano Inválido.','Numismatic Pro Desktop',48);
+    Abort;
+  End;
+
+  if not ((validate_auxiliar  > 1800)  and (validate_auxiliar < 2999))then
+  begin
+    Application.MessageBox('Operação Cancelada! Ano Inválido.','Numismatic Pro Desktop',48);
+    Abort;
+  end;
 
    if Trim(Type_Edit.Text) = ''  then
    begin
@@ -875,6 +924,108 @@ end;
 
 ////////////////////////////////////////////////////////////
 // CHECKBOX ACTION
+
+procedure TFrMenu.cb_orderbylistChange(Sender: TObject);
+var
+  TotalRegistersCoins,
+  TotalRegistersGeneral  : String;
+  OrderString            : String;
+begin
+
+  TotalRegistersCoins   := '0';
+  TotalRegistersGeneral := '0';
+
+  DsGridCoins.DataSet.Active      := False;
+  ReturnParametersDataSet.Active  := False;
+
+
+  //////////////////////////////////////////////////
+  //define order to select
+
+    case  cb_orderbylist.ItemIndex  of
+      0 : OrderString :=  'ORDER BY Year, Country ASC';
+      1 : OrderString :=  'ORDER BY Name, Year ASC';
+      2 : OrderString :=  'ORDER BY Unit, Year ASC';
+      3 : OrderString :=  'ORDER BY Country ASC';
+      4 : OrderString :=  'ORDER BY Year, Country ASC';
+      5 : OrderString :=  'ORDER BY Quantity, Country DESC';
+    end;
+
+  //////////////////////////////////////////////////
+  if PageControlGeral.ActivePage = page1 then
+  begin
+
+    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
+    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
+
+
+    With DataModule1.SqlActions do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        SQL.Add('WHERE  Coin = "TRUE"');
+        SQL.Add(OrderString);
+        Open;
+
+        DsGridCoins.DataSet.Active := True;
+
+        TotalRegistersCoins := IntToStr(ClientDataSet.RecordCount);
+
+        if StrToInt(TotalRegistersCoins) < 1 then
+        begin
+          DsGridCoins.DataSet.Active := False;
+          StatusBar_Bottom.Panels[1].Text := '0/0';
+          abort;
+        end;
+
+    end;
+  end;
+
+
+ if PageControlGeral.ActivePage = page2 then
+  begin
+
+    if DataModule1.SqlActions.active then DataModule1.SqlActions.Close;
+    if DataModule1.ReturnParameters.active then DataModule1.ReturnParameters.Close;
+
+
+    With DataModule1.SqlActions do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        SQL.Add('WHERE  Bills = "TRUE"');
+        SQL.Add(OrderString);
+        Open;
+
+        DsGridBills.DataSet.Active := True;
+
+        TotalRegistersCoins := IntToStr(ClientDataSet.RecordCount);
+
+        if StrToInt(TotalRegistersCoins) < 1 then
+        begin
+          DsGridBills.DataSet.Active := False;
+          StatusBar_Bottom.Panels[1].Text := '0/0';
+          abort;
+        end;
+
+    end;
+  end;
+
+   With DataModule1.ReturnParameters do
+      begin
+        SQL.Clear;
+        SQL.Add('SELECT * FROM CollectionTable');
+        Open;
+
+        ReturnParametersDataSet.Active := True;
+
+        TotalRegistersGeneral := IntToStr(ReturnParametersDataSet.RecordCount);
+    end;
+
+    StatusBar_Bottom.Panels[1].Text := TotalRegistersCoins + '/' + TotalRegistersGeneral;
+
+    Grid_CoinsCellClick(Grid_Coins.Columns[0]);
+end;
 
 procedure TFrMenu.chkCoinClick(Sender: TObject);
 begin

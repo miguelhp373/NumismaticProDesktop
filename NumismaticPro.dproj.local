@@ -17,10 +17,11 @@
     <Transaction>2022/02/28 21:24:54.000.012,=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
     <Transaction>2022/02/28 21:25:16.000.149,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Config.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm</Transaction>
     <Transaction>2022/02/28 21:25:16.000.149,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Config.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
-    <Transaction>2022/03/05 14:49:03.482,=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
-    <Transaction>2022/03/05 14:52:36.423,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_SelectDatabase.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
-    <Transaction>2022/03/05 14:52:36.423,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_SelectDatabase.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm</Transaction>
-  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+    <Transaction>2022/03/05 14:49:03.000.482,=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
+    <Transaction>2022/03/05 14:52:36.000.423,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_SelectDatabase.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm</Transaction>
+    <Transaction>2022/03/05 14:52:36.000.423,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_SelectDatabase.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="U_Config.pas"/>
     <File Path="U_Config.dfm"/>
     <File Path="U_DataModule.pas"/>

@@ -207,8 +207,10 @@ object FrMenu: TFrMenu
       Caption = 'Carregar'
       ImageIndex = 4
       Images = DataModule1.ImageList1
+      Enabled = False
       Flat = True
       Layout = blGlyphTop
+      Visible = False
       OnClick = ButtonRefreshDataClick
       ExplicitLeft = 80
       ExplicitHeight = 58
@@ -221,6 +223,26 @@ object FrMenu: TFrMenu
       TabOrder = 0
       TextHint = 'Buscar Moedas ou C'#233'dulas'
       OnChange = SearchFieldChange
+    end
+    object cb_orderbylist: TComboBox
+      Left = 516
+      Top = 19
+      Width = 145
+      Height = 22
+      Style = csOwnerDrawFixed
+      ItemIndex = 0
+      TabOrder = 1
+      Text = 'Ordena'#231#227'o Padr'#227'o'
+      TextHint = 'Selecione A Ordena'#231#227'o'
+      OnChange = cb_orderbylistChange
+      Items.Strings = (
+        'Ordena'#231#227'o Padr'#227'o'
+        'Nome'
+        'Unidade'
+        'Pais'
+        'Ano'
+        'Quantidade'
+        'Tipo')
     end
   end
   object Panel3: TPanel
@@ -239,6 +261,12 @@ object FrMenu: TFrMenu
       Height = 262
       ActivePage = page01_register
       Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 0
       object page01_register: TTabSheet
         Caption = 'Informa'#231#245'es'
@@ -350,6 +378,7 @@ object FrMenu: TFrMenu
           Height = 21
           MaxLength = 4
           TabOrder = 3
+          OnExit = Year_EditExit
         end
         object Type_Edit: TEdit
           Left = 50
@@ -389,6 +418,7 @@ object FrMenu: TFrMenu
           Width = 58
           Height = 21
           TabOrder = 6
+          OnExit = Value_EditExit
         end
       end
     end
@@ -451,7 +481,7 @@ object FrMenu: TFrMenu
               FieldName = 'Value'
               Title.Alignment = taRightJustify
               Title.Caption = 'Valor'
-              Width = 67
+              Width = 52
               Visible = True
             end
             item
@@ -460,20 +490,23 @@ object FrMenu: TFrMenu
               FieldName = 'Unit'
               Title.Alignment = taRightJustify
               Title.Caption = 'Unidade'
-              Width = 59
+              Width = 55
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'Country'
               Title.Caption = 'Pais'
-              Width = 101
+              Width = 94
               Visible = True
             end
             item
+              Alignment = taCenter
               Expanded = False
               FieldName = 'Year'
+              Title.Alignment = taCenter
               Title.Caption = 'Ano'
+              Width = 41
               Visible = True
             end
             item
@@ -554,9 +587,12 @@ object FrMenu: TFrMenu
               Visible = True
             end
             item
+              Alignment = taCenter
               Expanded = False
               FieldName = 'Year'
+              Title.Alignment = taCenter
               Title.Caption = 'Ano'
+              Width = 49
               Visible = True
             end
             item
@@ -609,18 +645,18 @@ object FrMenu: TFrMenu
     Width = 209
     Height = 493
     Align = alRight
+    PopupMenu = PopupMenu1
     TabOrder = 4
     object image01: TImage
       AlignWithMargins = True
-      Left = 4
-      Top = 4
+      Left = 2
+      Top = 3
       Width = 201
       Height = 213
       Cursor = crHandPoint
       Hint = 'Clique Com o Bot'#227'o Direito Para Adicionar Uma Imagem'
       Center = True
       ParentShowHint = False
-      PopupMenu = PopupMenu1
       Proportional = True
       ShowHint = True
       Stretch = True
@@ -635,11 +671,27 @@ object FrMenu: TFrMenu
       Hint = 'Clique Com o Bot'#227'o Direito Para Adicionar Uma Imagem'
       Center = True
       ParentShowHint = False
-      PopupMenu = PopupMenu2
       Proportional = True
       ShowHint = True
       Stretch = True
       OnClick = image02Click
+    end
+    object SpeedButton1: TSpeedButton
+      Left = 177
+      Top = 6
+      Width = 23
+      Height = 22
+      Caption = '...'
+    end
+    object Button2: TButton
+      Left = 179
+      Top = 260
+      Width = 25
+      Height = 25
+      Caption = '...'
+      DropDownMenu = PopupMenu2
+      PopupMenu = PopupMenu1
+      TabOrder = 0
     end
   end
   object MainMenu1: TMainMenu
@@ -687,7 +739,7 @@ object FrMenu: TFrMenu
     DefaultExt = '.jpg'
     Filter = 'Todos os Arquivos|*.jpg'
     InitialDir = '\downloads'
-    Title = 'Selecione A Imagem Frete'
+    Title = 'Selecione a Imagem a Frente'
     Left = 20
     Top = 127
   end
@@ -730,7 +782,7 @@ object FrMenu: TFrMenu
     DefaultExt = '.jpg'
     Filter = 'Todos os Arquivos|*.jpg'
     InitialDir = '\downloads'
-    Title = 'Selecione A Imagem Verso'
+    Title = 'Selecione a Imagem do Verso'
     Left = 28
     Top = 175
   end
