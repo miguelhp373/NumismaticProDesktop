@@ -91,6 +91,8 @@ type
     procedure cb_orderbylistChange(Sender: TObject);
     procedure Value_EditExit(Sender: TObject);
     procedure Year_EditExit(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -110,7 +112,7 @@ var
 
 implementation
 
-uses U_DataModule, U_FrInfo, U_Config;
+uses U_DataModule, U_Format, U_FrInfo, U_Config;
 
 {$R *.dfm}
 
@@ -129,7 +131,7 @@ var
   path  : String;
 begin
   //Define Version
-  GlbInfoVersion  :=  '2.2.2';
+  GlbInfoVersion  :=  '2.3';
 
   path := ExtractFilePath(ParamStr(0));
 
@@ -234,9 +236,9 @@ begin
           JPG1 := TJPEGImage.Create();
           JPG1.LoadFromFile(OpenDialog1.FileName);
           image01.Picture.Assign(JPG1);
-        Finally
-            Application.MessageBox('Operação Cancelada! Não Foi Possivel Selecionar a Imagem, Tente Novamente.','Numismatic Pro Desktop',48);
-            FreeAndNil(JPG1);
+        Except
+          Application.MessageBox('Operação Cancelada! Não Foi Possivel Selecionar a Imagem - #001, Tente Novamente.','Numismatic Pro Desktop',48);
+          FreeAndNil(JPG1);
         End;
     End;
   End;
@@ -251,9 +253,9 @@ begin
         JPG2 := TJPEGImage.Create();
         JPG2.LoadFromFile(OpenDialog2.FileName);
         image02.Picture.Assign(JPG2);
-      Finally
-            Application.MessageBox('Operação Cancelada! Não Foi Possivel Selecionar a Imagem, Tente Novamente.','Numismatic Pro Desktop',48);
-         FreeAndNil(JPG2);
+      Except
+        Application.MessageBox('Operação Cancelada! Não Foi Possivel Selecionar a Imagem - #002, Tente Novamente.','Numismatic Pro Desktop',48);
+        FreeAndNil(JPG2);
       End;
     end;
   end;
@@ -605,6 +607,12 @@ begin
   SearchAction(SearchField.Text);
 end;
 
+procedure TFrMenu.SpeedButton1Click(Sender: TObject);
+begin
+  LoaderImage('1');
+  ActiveControl := Name_Edit;
+end;
+
 procedure TFrMenu.Value_EditExit(Sender: TObject);
 begin
   Value_Edit.Text:= Formatfloat('#####0.00',strtofloat(Value_Edit.Text));
@@ -688,7 +696,7 @@ begin
           ParamByName('Year'    ).AsString := Year_Edit.Text;
           ParamByName('Type'    ).AsString := Type_Edit.Text;
           ParamByName('Quantity').AsString := Qtd_Edit.Text;
-          
+
 
           Stream1 := TMemoryStream.Create; 
           Stream2 := TMemoryStream.Create; 
@@ -739,7 +747,7 @@ begin
           SQL.Add('WHERE Id = :Id');
 
           ParamByName('Name'    ).AsString := Name_Edit.Text;
-          ParamByName('Value'   ).AsString := Value_Edit.Text;
+          ParamByName('Value'   ).AsFloat  := StrToFloat(Value_Edit.Text);
           ParamByName('Unit'    ).AsString := Unit_Edit.Text;
           ParamByName('Country' ).AsString := Country_Edit.Text;
           ParamByName('Year'    ).AsString := Year_Edit.Text;
@@ -800,6 +808,12 @@ end;
 procedure TFrMenu.button1popClick(Sender: TObject);
 begin
   LoaderImage('1');
+  ActiveControl := Name_Edit;
+end;
+
+procedure TFrMenu.Button2Click(Sender: TObject);
+begin
+  LoaderImage('2');
   ActiveControl := Name_Edit;
 end;
 

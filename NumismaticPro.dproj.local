@@ -2,26 +2,30 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2022/02/12 18:52:32.000.261,=C:\Users\migue\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2022/02/12 18:54:20.000.960,C:\Users\migue\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Menu.pas</Transaction>
-    <Transaction>2022/02/12 18:54:20.000.960,C:\Users\migue\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Menu.dfm</Transaction>
-    <Transaction>2022/02/12 18:54:29.000.479,C:\Users\migue\OneDrive\Documentos\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\NumismaticPro.dproj</Transaction>
+    <Transaction>2022/02/12 18:54:20.000.960,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Menu.dfm=C:\Users\migue\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/02/12 18:54:20.000.960,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Menu.pas=C:\Users\migue\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/02/12 18:54:29.000.479,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\NumismaticPro.dproj=C:\Users\migue\OneDrive\Documentos\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
     <Transaction>2022/02/12 18:55:04.000.408,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\NumismaticPro.dproj=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\NumismaticPro.dproj</Transaction>
-    <Transaction>2022/02/12 19:01:29.000.684,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Menu.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Menu.pas</Transaction>
-    <Transaction>2022/02/12 19:01:29.000.684,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Menu.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Menu.dfm</Transaction>
+    <Transaction>2022/02/12 19:01:29.000.684,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Menu.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Menu.dfm</Transaction>
+    <Transaction>2022/02/12 19:01:29.000.684,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Menu.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Menu.pas</Transaction>
     <Transaction>2022/02/12 19:40:56.000.882,=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
-    <Transaction>2022/02/12 19:41:05.000.964,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_DataModule.dfm</Transaction>
-    <Transaction>2022/02/12 19:41:05.000.964,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_DataModule.pas</Transaction>
+    <Transaction>2022/02/12 19:41:05.000.964,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_DataModule.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm</Transaction>
+    <Transaction>2022/02/12 19:41:05.000.964,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_DataModule.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
     <Transaction>2022/02/12 19:58:39.000.400,=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
-    <Transaction>2022/02/12 19:59:05.000.404,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_FrInfo.pas</Transaction>
-    <Transaction>2022/02/12 19:59:05.000.404,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_FrInfo.dfm</Transaction>
+    <Transaction>2022/02/12 19:59:05.000.404,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_FrInfo.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm</Transaction>
+    <Transaction>2022/02/12 19:59:05.000.404,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_FrInfo.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
     <Transaction>2022/02/28 21:24:54.000.012,=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
-    <Transaction>2022/02/28 21:25:16.000.149,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Config.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm</Transaction>
-    <Transaction>2022/02/28 21:25:16.000.149,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Config.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
+    <Transaction>2022/02/28 21:25:16.000.149,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Config.dfm</Transaction>
+    <Transaction>2022/02/28 21:25:16.000.149,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_Config.pas</Transaction>
     <Transaction>2022/03/05 14:49:03.000.482,=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
-    <Transaction>2022/03/05 14:52:36.000.423,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_SelectDatabase.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm</Transaction>
-    <Transaction>2022/03/05 14:52:36.000.423,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_SelectDatabase.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas</Transaction>
+    <Transaction>2022/03/05 14:52:36.000.423,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.dfm=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_SelectDatabase.dfm</Transaction>
+    <Transaction>2022/03/05 14:52:36.000.423,C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\Unit1.pas=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\NumismaticProDesktop\U_SelectDatabase.pas</Transaction>
+    <Transaction>2022/07/11 19:41:49.557,=C:\Users\migue\OneDrive\Documentos\Projetos\Delphi\Utils\U_Format.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="..\..\Delphi"/>
+    <File Path="..\Utils"/>
+    <File Path="..\Utils\U_Format.pas"/>
     <File Path="U_Config.pas"/>
     <File Path="U_Config.dfm"/>
     <File Path="U_DataModule.pas"/>

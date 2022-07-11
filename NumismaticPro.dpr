@@ -6,7 +6,8 @@ uses
   U_DataModule in 'U_DataModule.pas' {DataModule1: TDataModule},
   U_FrInfo in 'U_FrInfo.pas' {FrInfo},
   U_Config in 'U_Config.pas' {FrConfig},
-  U_SelectDatabase in 'U_SelectDatabase.pas' {FrSelectDatabase};
+  U_SelectDatabase in 'U_SelectDatabase.pas' {FrSelectDatabase},
+  U_Format in '..\Utils\U_Format.pas';
 
 {$R *.res}
 

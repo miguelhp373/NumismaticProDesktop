@@ -657,6 +657,7 @@ object FrMenu: TFrMenu
       Hint = 'Clique Com o Bot'#227'o Direito Para Adicionar Uma Imagem'
       Center = True
       ParentShowHint = False
+      PopupMenu = PopupMenu1
       Proportional = True
       ShowHint = True
       Stretch = True
@@ -671,6 +672,7 @@ object FrMenu: TFrMenu
       Hint = 'Clique Com o Bot'#227'o Direito Para Adicionar Uma Imagem'
       Center = True
       ParentShowHint = False
+      PopupMenu = PopupMenu2
       Proportional = True
       ShowHint = True
       Stretch = True
@@ -682,6 +684,8 @@ object FrMenu: TFrMenu
       Width = 23
       Height = 22
       Caption = '...'
+      PopupMenu = PopupMenu1
+      OnClick = SpeedButton1Click
     end
     object Button2: TButton
       Left = 180
@@ -690,8 +694,8 @@ object FrMenu: TFrMenu
       Height = 25
       Caption = '...'
       DropDownMenu = PopupMenu2
-      PopupMenu = PopupMenu1
       TabOrder = 0
+      OnClick = Button2Click
     end
   end
   object MainMenu1: TMainMenu
@@ -755,6 +759,7 @@ object FrMenu: TFrMenu
     object button1pop: TMenuItem
       Caption = 'Adicionar Imagem Frente'
       ImageIndex = 5
+      Visible = False
       OnClick = button1popClick
     end
     object RemoverImagem1: TMenuItem
@@ -770,6 +775,7 @@ object FrMenu: TFrMenu
     object button2pop: TMenuItem
       Caption = 'Adicionar Imagem Verso'
       ImageIndex = 5
+      Visible = False
       OnClick = button2popClick
     end
     object RemoverImagem2: TMenuItem
