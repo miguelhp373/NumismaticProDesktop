@@ -129,7 +129,7 @@ var
   path  : String;
 begin
   //Define Version
-  GlbInfoVersion  :=  '2.1.2';
+  GlbInfoVersion  :=  '2.2.2';
 
   path := ExtractFilePath(ParamStr(0));
 
@@ -535,7 +535,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT * FROM CollectionTable');
         SQL.Add('WHERE Name LIKE :TextParam AND Coin = "TRUE"');
-        SQL.Add('ORDER BY Name Year, Country');
+        SQL.Add('ORDER BY Year, Name, Country');
 
         ParambyName('TextParam').AsString :=  '%' + Textsearch  + '%';
         Open;

@@ -239,7 +239,7 @@ object FrMenu: TFrMenu
         'Ordena'#231#227'o Padr'#227'o'
         'Nome'
         'Unidade'
-        'Pais'
+        'Pa'#237's'
         'Ano'
         'Quantidade'
         'Tipo')
@@ -677,15 +677,15 @@ object FrMenu: TFrMenu
       OnClick = image02Click
     end
     object SpeedButton1: TSpeedButton
-      Left = 177
-      Top = 6
+      Left = 182
+      Top = 3
       Width = 23
       Height = 22
       Caption = '...'
     end
     object Button2: TButton
-      Left = 179
-      Top = 260
+      Left = 180
+      Top = 257
       Width = 25
       Height = 25
       Caption = '...'
