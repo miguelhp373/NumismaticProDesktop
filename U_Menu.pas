@@ -867,18 +867,18 @@ begin
     abort;
    end;
 
-  Try
+   Try
     validate_auxiliar :=  StrToInt(Year_Edit.Text);
-  Finally
-    Application.MessageBox('Operação Cancelada! Ano Inválido.','Numismatic Pro Desktop',48);
+   Except
+    Application.MessageBox('Operação Cancelada! Ano Inválido - #001','Numismatic Pro Desktop',48);
     Abort;
-  End;
+   End;
 
-  if not ((validate_auxiliar  > 1800)  and (validate_auxiliar < 2999))then
-  begin
-    Application.MessageBox('Operação Cancelada! Ano Inválido.','Numismatic Pro Desktop',48);
+   if not ((validate_auxiliar  > 1800)  and (validate_auxiliar < 2999))then
+   begin
+    Application.MessageBox('Operação Cancelada! Ano Inválido - #002','Numismatic Pro Desktop',48);
     Abort;
-  end;
+   end;
 
    if Trim(Type_Edit.Text) = ''  then
    begin
