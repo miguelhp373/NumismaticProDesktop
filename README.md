@@ -15,6 +15,7 @@ Software Criado Baseado No [OpenNumistatic](https://github.com/OpenNumismat/open
 
 - Delphi10
 - Sqlite
+- [Icons8](https://icons8.com.br/icon/set/popular-icons/color) / Pacote Popular Icons 
 ---
 ## 🛠️ Instalação
 
