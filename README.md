@@ -5,6 +5,9 @@
 # Numismatic Pro Desktop
 
 **💰 Aplicação Desktop Para Destinada a Colecionadores , Para Organização De Moedas e Notas Colecionáveis em Português.**
+---
+### <img src='https://opennumismat.github.io/favicon.ico' style='width:80px;height:80px;'/> 
+Software Criado Baseado No [OpenNumistatic](https://github.com/OpenNumismat/open-numismat)
 
 ---
 
