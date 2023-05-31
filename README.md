@@ -1,36 +1,40 @@
-<div style='text-align:center'>
-  <img src='.github/NumismaticPro_Icon.ico' style='width:150px;height:150px;'/>
- </div>
+![Numismatic Pro Desktop](.github/NumismaticPro_Icon.ico)
 
 # Numismatic Pro Desktop
 
-**💰 Aplicação Desktop Para Destinada a Colecionadores , Para Organização De Moedas e Notas Colecionáveis em Português.**
----
-### <img src='https://opennumismat.github.io/favicon.ico' style='width:80px;height:80px;'/> 
-Software Criado Baseado No [OpenNumistatic](https://github.com/OpenNumismat/open-numismat)
+**💰 Desktop Application for Collectors, for Organizing Collectible Coins and Notes in Portuguese.**
 
 ---
 
-## 🚀 Tecnologias
+![OpenNumistatic](https://opennumismat.github.io/favicon.ico)  
+Software Created Based on [OpenNumistatic](https://github.com/OpenNumismat/open-numismat)
+
+---
+
+## 🚀 Technologies
 
 - Delphi10
 - Sqlite
-- [Icons8](https://icons8.com.br/icon/set/popular-icons/color) / Pacote Popular Icons 
----
-## 🛠️ Instalação
+- [Icons8](https://icons8.com.br/icon/set/popular-icons/color) / Popular Icons Pack
 
- - Baixe o Setup.exe [Clicando Aqui](https://github.com/miguelhp373/NumismaticProDesktop/raw/main/Setup/Setup.rar)
-## **🎨Layout**
+---
+
+## 🛠️ Installation
+
+- Download the Setup.exe [Here](https://github.com/miguelhp373/NumismaticProDesktop/raw/main/Setup/Setup.rar)
+
+## **🎨 Layout**
 
 ### 🏠 Interface
 
-![.github/interface.jpeg](.github/interface.jpeg)
+![Interface](.github/interface.jpeg)
 
- ***
- # 📝 License
+---
 
+# 📝 License
 
-Este projeto está licenciado sob a Licença  GPL-3.0 License - consulte o arquivo [LICENÇA](LICENSE) para obter detalhes.
+This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
 
-***
-Feito com 💜 &nbsp;por Miguel Henrique 👋
+---
+
+Made with 💜 by Miguel Henrique 👋
